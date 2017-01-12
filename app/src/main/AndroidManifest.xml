@@ -17,8 +17,16 @@
         </activity>
         <activity android:name=".TeamListView">
             <intent-filter>
-                <action android:name="android.intent.action.TEAMLIST"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="android.intent.action.TEAMLIST" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".AddTeamActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.ADDTEAM" />
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
     </application>

@@ -1,45 +1,90 @@
 package com.nju.va.technicalstatistics;
 
-import android.app.ListActivity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.SimpleAdapter;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+public class TeamListView extends AppCompatActivity {
+    ListView listView;
+    String[] names = {"江苏男子排球队", "上海金色年华男子排球队", "山东体彩男子排球队"};
+    //    String [] texts={"文本内容A","文本内容B","文本内容C"};
+    int[] resIds = {R.drawable.team_img, R.drawable.team_img, R.drawable.team_img};
 
-public class TeamListView extends ListActivity {
-
-    // private List<String> data = new ArrayList<String>();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.view_team_list);
 
-        SimpleAdapter adapter = new SimpleAdapter(this,getData(),R.layout.team_list_line,
-                new String[]{"name","img"},
-                new int[]{R.id.name,R.id.img});
-        setListAdapter(adapter);
+//        getActionBar().setDisplayHomeAsUpEnabled(true);
+
+        this.setTitle("BaseAdapter for ListView");
+        listView = (ListView) this.findViewById(R.id.team_list);
+        listView.setAdapter(new TeamListAdapter(names, resIds));
+
+        Button addBtn = (Button)findViewById(R.id.add_team_button);
+        addBtn.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                startActivity(new Intent("android.intent.action.ADDTEAM"));
+            }
+        });
     }
 
-    private List<Map<String, Object>> getData() {
-        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+    public class TeamListAdapter extends BaseAdapter {
+        View[] itemViews;
 
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("name", "江苏男子排球队");
-        map.put("img", R.drawable.team_img);
-        list.add(map);
+        public TeamListAdapter(String[] names,
+                               int[] itemImageRes) {
+            itemViews = new View[names.length];
 
-        map = new HashMap<String, Object>();
-        map.put("name", "上海金色年华男子排球队");
-        map.put("img", R.drawable.team_img);
-        list.add(map);
+            for (int i = 0; i < itemViews.length; ++i) {
+                itemViews[i] = makeItemView(names[i],
+                        itemImageRes[i]);
+            }
+        }
 
-        map = new HashMap<String, Object>();
-        map.put("name", "山东体彩男子排球队");
-        map.put("img", R.drawable.team_img);
-        list.add(map);
+        public int getCount() {
+            return itemViews.length;
+        }
 
-        return list;
+        public View getItem(int position) {
+            return itemViews[position];
+        }
+
+        public long getItemId(int position) {
+            return position;
+        }
+
+        private View makeItemView(String strName, int resId) {
+            LayoutInflater inflater = (LayoutInflater) TeamListView.this
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+            // 使用View的对象itemView与R.layout.item关联
+            View itemView = inflater.inflate(R.layout.team_list_line, null);
+
+            // 通过findViewById()方法实例R.layout.item内各组件
+            TextView name = (TextView) itemView.findViewById(R.id.name);
+            name.setText(strName);
+            ImageView image = (ImageView) itemView.findViewById(R.id.img);
+            image.setImageResource(resId);
+
+            return itemView;
+        }
+
+        public View getView(int position, View convertView, ViewGroup parent) {
+            if (convertView == null)
+                return itemViews[position];
+            return convertView;
+        }
     }
 }
