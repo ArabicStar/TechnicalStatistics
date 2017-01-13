@@ -69,10 +69,10 @@ public class TeamListView extends AppCompatActivity {
             LayoutInflater inflater = (LayoutInflater) TeamListView.this
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-            // 使用View的对象itemView与R.layout.item关联
+            // 使用View的对象itemView与R.dialog_new_member.item关联
             View itemView = inflater.inflate(R.layout.team_list_line, null);
 
-            // 通过findViewById()方法实例R.layout.item内各组件
+            // 通过findViewById()方法实例R.dialog_new_member.item内各组件
             TextView name = (TextView) itemView.findViewById(R.id.name);
             name.setText(strName);
             ImageView image = (ImageView) itemView.findViewById(R.id.img);
