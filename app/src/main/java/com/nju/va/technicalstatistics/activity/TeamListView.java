@@ -1,20 +1,17 @@
 package com.nju.va.technicalstatistics.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.nju.va.technicalstatistics.R;
 import com.nju.va.technicalstatistics.adapter.TeamAdapter;
+import com.nju.va.technicalstatistics.info.Member;
+import com.nju.va.technicalstatistics.info.POSITION;
 import com.nju.va.technicalstatistics.info.Team;
 
 import java.util.ArrayList;
@@ -30,9 +27,18 @@ public class TeamListView extends AppCompatActivity {
 
         initTeams();
 
-        TeamAdapter adapter = new TeamAdapter(TeamListView.this,R.layout.team_list_line,teamList);
-        ListView listView = (ListView) findViewById(R.id.team_list);
-        listView.setAdapter(adapter);
+        TeamAdapter adapter = new TeamAdapter(TeamListView.this,R.layout.line_team,teamList);
+        final ListView teamList = (ListView) findViewById(R.id.team_list);
+        teamList.setAdapter(adapter);
+        teamList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Team team = (Team) teamList.getItemAtPosition(position);
+                Intent intent = new Intent(TeamListView.this,TeamDetailActivity.class);
+                intent.putExtra("team_data",team);
+                startActivity(intent);
+            }
+        });
 
         Button addBtn = (Button)findViewById(R.id.add_team_button);
         addBtn.setOnClickListener(new View.OnClickListener(){
@@ -47,6 +53,10 @@ public class TeamListView extends AppCompatActivity {
      */
     private void initTeams(){
         Team t1 = new Team("江苏男子排球队");
+        Member m1 = new Member("张晨",6, POSITION.主攻);
+        t1.addMember(m1);
+        Member m2 = new Member("于垚辰",5, POSITION.二传);
+        t1.addMember(m2);
         teamList.add(t1);
         Team t2 = new Team("上海金色年华男子排球队");
         teamList.add(t2);

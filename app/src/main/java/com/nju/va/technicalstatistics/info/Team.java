@@ -2,13 +2,15 @@ package com.nju.va.technicalstatistics.info;
 
 import com.nju.va.technicalstatistics.R;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 /**
  * Created by jqwu on 2017/1/15.
  */
-public class Team {
+public class Team implements Serializable {
     public String getName() {
         return name;
     }
@@ -16,7 +18,16 @@ public class Team {
     private String name;
     private int id;
     private int imgId;
-    private Set<Member> members;
+    private List<Member> members;
+
+    public List<Member> getMembers() {
+        if(members==null)
+            return new ArrayList<Member>();
+        else
+            return members;
+    }
+
+
 
     public Team(String name){
         this.name = name;
@@ -26,7 +37,7 @@ public class Team {
 
     public void addMember(Member m){
         if(members==null)
-            members = new HashSet<Member>();
+            members = new ArrayList<Member>();
         members.add(m);
     }
 

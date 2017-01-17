@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:baselineAligned="false"
+    android:gravity="center_vertical">
+
+
+    <TextView android:id="@+id/member_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#808080"
+        android:textSize="18dp"
+        android:text="名字"
+        android:elegantTextHeight="false"
+        android:layout_weight="1"
+        android:textAlignment="center" />
+
+    <TextView android:id="@+id/member_number"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#000"
+        android:textSize="18dp"
+        android:text="5号"
+        android:layout_weight="1"
+        android:elegantTextHeight="false"
+        android:textAlignment="center" />
+
+    <TextView android:id="@+id/member_position"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:textSize="18dp"
+        android:text="主攻"
+        android:layout_weight="1"
+        android:elegantTextHeight="false"
+        android:textAlignment="center" />
+
+</LinearLayout>
