@@ -12,7 +12,7 @@
         android:layout_width="fill_parent"
         android:layout_weight="1"
         android:layout_margin="10dp"
-        android:layout_height="fill_parent">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -26,15 +26,10 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="队伍名称"/>
 
-            <TextView
-                android:layout_width="wrap_content"
+            <EditText
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#000"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Medium Text"
-                android:id="@+id/team_name"
-                android:textSize="20dp"
-                android:layout_marginLeft="15dp" />
+                android:id="@+id/name" />
 
         </LinearLayout>
 
@@ -51,6 +46,12 @@
                 android:layout_weight="1"
                 android:textSize="20dp"
                 android:text="队员组成"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+"
+                android:id="@+id/add_member_button" />
 
         </LinearLayout>
 

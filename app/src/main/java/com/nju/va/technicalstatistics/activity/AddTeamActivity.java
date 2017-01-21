@@ -15,10 +15,17 @@ public class AddTeamActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_team);
 
-        Button cancelBtn = (Button)findViewById(R.id.cancel);
+        final Button cancelBtn = (Button)findViewById(R.id.cancel);
         cancelBtn.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 finish();
+            }
+        });
+
+        final Button addMemberBtn = (Button)findViewById(R.id.add_member_button);
+        addMemberBtn.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                startActivity(new Intent("android.intent.action.ADDMEMBER"));
             }
         });
     }

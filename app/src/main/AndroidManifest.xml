@@ -29,7 +29,20 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.TeamDetailActivity"></activity>
+        <activity android:name=".activity.TeamDetailActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.TEAMDETAIL" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.AddMemberActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.ADDMEMBER" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
