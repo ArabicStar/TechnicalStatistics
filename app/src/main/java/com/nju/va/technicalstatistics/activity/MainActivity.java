@@ -16,10 +16,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //team data button
-        Button teamBtn = (Button)findViewById(R.id.team_data_button);
+        final Button teamBtn = (Button)findViewById(R.id.team_data_button);
         teamBtn.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 startActivity(new Intent("android.intent.action.TEAMLIST"));
+            }
+        });
+
+        final Button newCompBtn = (Button)findViewById(R.id.new_competition_button);
+        newCompBtn.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                startActivity(new Intent("android.intent.action.SCORE"));
             }
         });
     }
