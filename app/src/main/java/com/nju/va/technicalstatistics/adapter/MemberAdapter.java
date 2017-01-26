@@ -37,7 +37,7 @@ public class MemberAdapter extends ArrayAdapter<Member> {
 
         memberName.setText(member.getName());
         memberNum.setText(Integer.toString(member.getNumber())+"号");
-        memberPos.setText(member.getPosition().toString());
+        memberPos.setText(member.getPositionString());
 
         return view;
     }
