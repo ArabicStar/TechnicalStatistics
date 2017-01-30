@@ -11,7 +11,6 @@ import android.widget.ListView;
 import com.nju.va.technicalstatistics.R;
 import com.nju.va.technicalstatistics.adapter.TeamAdapter;
 import com.nju.va.technicalstatistics.info.Member;
-import com.nju.va.technicalstatistics.info.POSITION;
 import com.nju.va.technicalstatistics.info.Team;
 
 import java.util.ArrayList;
@@ -53,9 +52,9 @@ public class TeamListView extends AppCompatActivity {
      */
     private void initTeams(){
         Team t1 = new Team("江苏男子排球队");
-        Member m1 = new Member("张晨",6, POSITION.主攻);
+        Member m1 = new Member("张晨",6, Member.CHIEF_SETTER);
         t1.addMember(m1);
-        Member m2 = new Member("于垚辰",5, POSITION.二传);
+        Member m2 = new Member("于垚辰",5, Member.CHIEF_SETTER);
         t1.addMember(m2);
         teamList.add(t1);
         Team t2 = new Team("上海金色年华男子排球队");

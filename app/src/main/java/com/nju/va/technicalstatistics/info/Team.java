@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by jqwu on 2017/1/15.
  */
-public class Team implements Parcelable, Serializable {
+public class Team implements Parcelable{
     private String name;
     private int id;
     private int imgId;
