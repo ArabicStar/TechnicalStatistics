@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         final Button newCompBtn = (Button)findViewById(R.id.new_competition_button);
         newCompBtn.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                startActivity(new Intent("android.intent.action.CHOOSETEAM"));
+                startActivity(new Intent("android.intent.action.SCORE"));
             }
         });
     }

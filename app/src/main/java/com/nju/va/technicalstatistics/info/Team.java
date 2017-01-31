@@ -5,16 +5,13 @@ import android.os.Parcelable;
 
 import com.nju.va.technicalstatistics.R;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 
 /**
  * Created by jqwu on 2017/1/15.
  */
-public class Team implements Parcelable ,Serializable{
+public class Team implements Parcelable {
     private String name;
     private int id;
     private int imgId;
@@ -26,11 +23,18 @@ public class Team implements Parcelable ,Serializable{
         this.members = new ArrayList<>( 20 );
     }
 
+    public int getId() { return id; }
+
     public String getName() { return name; }
 
     public int getImgId() {
         return imgId;
     }
+
+    public void setId( int id ) { this.id = id; }
+
+    public void setImgId( int imgId ) { this.imgId = imgId; }
+
 
     public List< Member > getMembers() { return new ArrayList<>( members ); }
 
@@ -50,7 +54,7 @@ public class Team implements Parcelable ,Serializable{
             Team team = new Team( parcel.readString() );
             team.id = parcel.readInt();
             team.imgId = parcel.readInt();
-            team.members = parcel.readArrayList( ClassLoader.getSystemClassLoader() );
+            team.members = (ArrayList< Member >) parcel.readArrayList( ClassLoader.getSystemClassLoader() );
             return team;
         }
 

@@ -35,13 +35,19 @@ public class Member implements Parcelable, Serializable {
         this.position = position;
     }
 
-    public void setTeamId( int teamId ) { this.teamId = teamId; }
+    public void setTeam( int teamId ) { this.teamId = teamId; }
+
+    public void setId( int id ) { this.id = id; }
+
+    public int getId() { return id; }
 
     public int getNumber() { return number; }
 
     public String getName() { return name; }
 
     @PlayerPosition public int getPosition() { return position; }
+
+    public int getTeam() { return teamId; }
 
     public String getPositionString() { return POSITION_NAME[position]; }
 
