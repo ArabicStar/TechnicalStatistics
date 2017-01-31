@@ -2,6 +2,7 @@ package com.nju.va.technicalstatistics.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -34,7 +35,7 @@ public class TeamListView extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Team team = (Team) teamList.getItemAtPosition(position);
                 Intent intent = new Intent(TeamListView.this,TeamDetailActivity.class);
-                intent.putExtra("team_data",team);
+                intent.putExtra("team_data",(Parcelable) team);
                 startActivity(intent);
             }
         });
