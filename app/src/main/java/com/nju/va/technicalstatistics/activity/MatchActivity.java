@@ -20,7 +20,7 @@ import net.simonvt.menudrawer.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ScoreActivity extends AppCompatActivity {
+public class MatchActivity extends AppCompatActivity {
 
     private MenuDrawer mDrawer;
     @Override

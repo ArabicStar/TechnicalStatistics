@@ -7,15 +7,28 @@ package com.nju.va.technicalstatistics.info;
 
 public class Exchange {
     /**
-     * 在哪一分结束以后选择换人
+     * 提出换人的队伍分数
      */
-    private int pointBefore;
+    private int pointA;
 
     /**
-     * 哪一只队伍提出换人
+     * 另一只队伍的分数
      */
-    private Team team;
+    private int pointB;
+
+    /**
+     * 提出换人的队伍
+     */
+    private Team teamA;
+
+    /**
+     * 下场的队员
+     */
     private Member oldMem;
+
+    /**
+     * 换上场的队员
+     */
     private Member newMem;
 
 

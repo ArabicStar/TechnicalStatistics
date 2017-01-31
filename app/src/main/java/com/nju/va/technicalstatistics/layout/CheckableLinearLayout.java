@@ -17,7 +17,7 @@ public class CheckableLinearLayout extends LinearLayout implements Checkable {
     @Override
     public void setChecked(boolean checked) {
         mChecked = checked;
-//        setBackgroundDrawable(checked ? new ColorDrawable(0xff0000a0) : null);//当选中时呈现蓝色
+
     }
     @Override
     public boolean isChecked() {

@@ -45,14 +45,20 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.ScoreActivity">
+        <activity android:name=".activity.MatchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SCORE" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.ChooseTeamActivity"></activity>
+        <activity android:name=".activity.ChooseTeamActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.CHOOSETEAM" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

@@ -22,9 +22,4 @@ public class Point {
      */
     private String why;
 
-    public Team getTeam() {
-        return team;
-    }
-
-    private Team team;
 }
