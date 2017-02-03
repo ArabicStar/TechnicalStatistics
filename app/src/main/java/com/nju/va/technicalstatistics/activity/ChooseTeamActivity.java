@@ -1,13 +1,12 @@
 package com.nju.va.technicalstatistics.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.nju.va.technicalstatistics.R;
 import com.nju.va.technicalstatistics.adapter.TeamAdapter;
@@ -17,35 +16,36 @@ import com.nju.va.technicalstatistics.info.Team;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TeamListView extends AppCompatActivity {
+public class ChooseTeamActivity extends AppCompatActivity {
     private List<Team> teams = new ArrayList<Team>();
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.view_team_list);
+        setContentView(R.layout.activity_choose_team);
 
         initTeams();
 
-        TeamAdapter adapter = new TeamAdapter(TeamListView.this,R.layout.line_team, teams);
+        TeamAdapter adapter = new TeamAdapter(ChooseTeamActivity.this,R.layout.line_team, teams);
         final ListView teamList = (ListView) findViewById(R.id.team_list);
         teamList.setAdapter(adapter);
-        teamList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Team team = (Team) teamList.getItemAtPosition(position);
-                Intent intent = new Intent(TeamListView.this,TeamDetailActivity.class);
-                intent.putExtra("team_data",(Parcelable) team);
-                startActivity(intent);
+        teamList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+
+        Button confirmBtn = (Button)findViewById(R.id.confirm);
+        confirmBtn.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                if(teamList.getCheckedItemCount()!=2)
+                    Toast.makeText(getApplicationContext(),"请选择2支队伍",Toast.LENGTH_SHORT).show();
+                else{
+                    startActivity(new Intent("android.intent.action.SCORE"));
+                }
+
+
+
             }
         });
 
-        Button addBtn = (Button)findViewById(R.id.add_team_button);
-        addBtn.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                startActivity(new Intent("android.intent.action.ADDTEAM"));
-            }
-        });
+
     }
 
     /**
@@ -65,5 +65,4 @@ public class TeamListView extends AppCompatActivity {
         Team t4 = new Team("山东体彩男子排球队");
         teams.add(t4);
     }
-
 }
