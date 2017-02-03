@@ -24,7 +24,7 @@ public class TeamDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team_detail);
 
-        team = (Team) getIntent().getSerializableExtra("team_data");
+        team = (Team) getIntent().getParcelableExtra("team_data");
         initInfo();
     }
 

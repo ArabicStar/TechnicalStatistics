@@ -1,10 +1,12 @@
 package com.nju.va.technicalstatistics.info;
 
+import java.io.Serializable;
+
 /**
  * Created by jqwu on 2017/1/31.
  */
 
-public class Stop {
+public class Stop implements Serializable {
     /**
      * 暂停时，叫暂停队伍的得分
      */

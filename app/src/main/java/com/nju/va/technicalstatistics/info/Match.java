@@ -1,5 +1,6 @@
 package com.nju.va.technicalstatistics.info;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,9 +8,15 @@ import java.util.List;
  * Created by jqwu on 2017/1/31.
  */
 
-public class Match {
+public class Match implements Serializable {
     private List<Point> leftPoints;
     private List<Point> rightPoints;
+
+    /**
+     * 这两个list用于记录此时上场阵容，无需保存到数据库，但需要能在业务层之间传递
+     */
+    private List<Member> leftMembers;
+    private List<Member> rightMembers;
 
     private Team leftTeam;
     private Team rightTeam;
@@ -19,12 +26,18 @@ public class Match {
 
     private boolean finish;
 
-    Match(Team a,Team b){
+    public Match(Team a,Team b){
         leftTeam = a;
         rightTeam = b;
         leftPoints = new ArrayList<Point>();
         rightPoints = new ArrayList<Point>();
         finish = false;
+    }
+    public Team getRightTeam() {
+        return rightTeam;
+    }
+    public Team getLeftTeam() {
+        return leftTeam;
     }
 
     public void addLeftPoint(Point p){

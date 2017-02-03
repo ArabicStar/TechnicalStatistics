@@ -1,11 +1,13 @@
 package com.nju.va.technicalstatistics.info;
 
+import java.io.Serializable;
+
 /**
  * Created by jqwu on 2017/1/31.
  * 记录换人信息
  */
 
-public class Exchange {
+public class Exchange implements Serializable {
     /**
      * 提出换人的队伍分数
      */

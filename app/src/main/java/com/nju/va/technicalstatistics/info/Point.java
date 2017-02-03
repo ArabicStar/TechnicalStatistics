@@ -1,12 +1,15 @@
 package com.nju.va.technicalstatistics.info;
 
+import android.os.Parcelable;
+
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by jqwu on 2017/1/31.
  */
 
-public class Point {
+public class Point implements Serializable {
     /**
      * 每一分有一到三人为其作出贡献
      */
