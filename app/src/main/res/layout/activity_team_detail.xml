@@ -23,15 +23,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
+                android:id="@+id/team_name"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="队伍名称"/>
 
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/editText"
-                android:layout_weight="1"
-                android:inputType="none" />
 
         </LinearLayout>
 
@@ -74,7 +69,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="保存"
+            android:text="删除"
             android:layout_weight="1"
             android:id="@+id/button"
             android:layout_marginLeft="10dp"
@@ -87,7 +82,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
-            android:text="取消"
+            android:text="修改"
             android:id="@+id/button3" />
     </LinearLayout>
 

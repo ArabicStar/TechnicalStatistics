@@ -63,9 +63,12 @@ public class Member implements Parcelable, Serializable {
 
     public static final Creator< Member > CREATOR = new Creator< Member >() {
         @Override public Member createFromParcel( Parcel parcel ) {
-            Member member = new Member( parcel.readString(), parcel.readInt(), parcel.readInt() );
-            member.teamId = parcel.readInt();
+            @Member.PlayerPosition int pos=parcel.readInt();
+            String name = parcel.readString();
+            int num = parcel.readInt();
+            Member member = new Member( name, num, pos );
             member.id = parcel.readInt();
+            member.teamId = parcel.readInt();
             return member;
         }
 
@@ -75,9 +78,9 @@ public class Member implements Parcelable, Serializable {
     @Override public int describeContents() { return 0; }
 
     @Override public void writeToParcel( Parcel parcel, int i ) {
+        parcel.writeInt( position );
         parcel.writeString( name );
         parcel.writeInt( number );
-        parcel.writeInt( position );
         parcel.writeInt( id );
         parcel.writeInt( teamId );
     }

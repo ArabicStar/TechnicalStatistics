@@ -20,13 +20,13 @@ public class Team implements Parcelable {
 
     public Team() {
         this.imgId = R.drawable.team_img;
-        this.members = new ArrayList<>( 20 );
+        this.members = new ArrayList<>();
     }
 
     public Team(String name) {
         this.name = name;
         this.imgId = R.drawable.team_img;
-        this.members = new ArrayList<>( 20 );
+        this.members = new ArrayList<>();
     }
 
     public int getId() { return id; }
@@ -54,16 +54,20 @@ public class Team implements Parcelable {
         parcel.writeString( name );
         parcel.writeInt( id );
         parcel.writeInt( imgId );
-        parcel.writeParcelableArray( members.toArray( new Member[members.size()] ), 0 );
+//        parcel.writeList(members);
+        parcel.writeTypedList(members);
+
     }
 
     public static final Creator< Team > CREATOR = new Creator< Team >() {
         @Override public Team createFromParcel( Parcel parcel ) {
             Team team = new Team();
-            team.id = parcel.readInt();
             team.name = parcel.readString();
+            team.id = parcel.readInt();
             team.imgId = parcel.readInt();
-            team.members=Arrays.asList((Member[])parcel.readParcelableArray(Member.class.getClassLoader()));
+//            team.members=Arrays.asList((Member[])parcel.readParcelableArray(Member.class.getClassLoader()));
+//            parcel.readList(team.members,Member.class.getClassLoader());
+            parcel.readTypedList(team.members,Member.CREATOR);
             return team;
         }
 

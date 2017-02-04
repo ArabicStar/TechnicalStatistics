@@ -15,6 +15,8 @@ import android.widget.Toast;
 import com.nju.va.technicalstatistics.R;
 import com.nju.va.technicalstatistics.info.Member;
 
+import java.io.Serializable;
+
 public class AddMemberActivity extends AppCompatActivity {
 
     @Override
@@ -42,7 +44,7 @@ public class AddMemberActivity extends AppCompatActivity {
                     @Member.PlayerPosition int pos=positionList.getSelectedItemPosition();
                     Member member = new Member(name.getText().toString(),Integer.parseInt(number.getText().toString()),pos);
                     Intent intent = new Intent();
-                    intent.putExtra("member_data",(Parcelable) member);
+                    intent.putExtra("member_data",(Serializable) member);
                     setResult(RESULT_OK,intent);
                     finish();
                 }else{

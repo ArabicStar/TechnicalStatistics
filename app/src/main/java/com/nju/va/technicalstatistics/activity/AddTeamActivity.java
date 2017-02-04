@@ -19,7 +19,7 @@ public class AddTeamActivity extends AppCompatActivity {
         switch (requestCode){
             case 1:
                 if(resultCode==RESULT_OK){
-                    team.addMember((Member)data.getParcelableExtra("member_data"));
+                    team.addMember((Member)data.getSerializableExtra("member_data"));
                 }
                 break;
             default:
