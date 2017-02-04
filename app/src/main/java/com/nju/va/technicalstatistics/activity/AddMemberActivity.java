@@ -1,6 +1,7 @@
 package com.nju.va.technicalstatistics.activity;
 
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.nju.va.technicalstatistics.R;
+import com.nju.va.technicalstatistics.info.Member;
 
 public class AddMemberActivity extends AppCompatActivity {
 
@@ -36,7 +38,12 @@ public class AddMemberActivity extends AppCompatActivity {
         //addBtn初始化
         addBtn.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                if(number.getText().length()!=0&&name.getText().length()!=0){
+                if(!number.getText().toString().isEmpty()&&!name.getText().toString().isEmpty()){
+                    @Member.PlayerPosition int pos=positionList.getSelectedItemPosition();
+                    Member member = new Member(name.getText().toString(),Integer.parseInt(number.getText().toString()),pos);
+                    Intent intent = new Intent();
+                    intent.putExtra("member_data",(Parcelable) member);
+                    setResult(RESULT_OK,intent);
                     finish();
                 }else{
                     Toast.makeText(getApplicationContext(),"请完整填写队员信息",Toast.LENGTH_LONG).show();

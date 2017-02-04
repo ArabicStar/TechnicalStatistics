@@ -53,7 +53,7 @@ public class TeamListView extends AppCompatActivity {
      */
     private void initTeams(){
         Team t1 = new Team("江苏男子排球队");
-        Member m1 = new Member("张晨",6, Member.CHIEF_SETTER);
+        Member m1 = new Member("张晨",6, Member.CHIEF_SPIKER);
         t1.addMember(m1);
         Member m2 = new Member("于垚辰",5, Member.CHIEF_SETTER);
         t1.addMember(m2);

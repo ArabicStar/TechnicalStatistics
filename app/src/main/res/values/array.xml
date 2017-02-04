@@ -3,8 +3,8 @@
     <string-array name="positions">
         <item>主攻</item>
         <item>副攻 </item>
-        <item>接应</item>
-        <item>二传</item>
         <item>自由人</item>
+        <item>二传</item>
+        <item>接应</item>
     </string-array>
 </resources>

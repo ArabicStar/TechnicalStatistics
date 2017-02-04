@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import com.nju.va.technicalstatistics.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -17,7 +18,12 @@ public class Team implements Parcelable {
     private int imgId;
     private List< Member > members;
 
-    public Team( String name ) {
+    public Team() {
+        this.imgId = R.drawable.team_img;
+        this.members = new ArrayList<>( 20 );
+    }
+
+    public Team(String name) {
         this.name = name;
         this.imgId = R.drawable.team_img;
         this.members = new ArrayList<>( 20 );
@@ -32,6 +38,8 @@ public class Team implements Parcelable {
     }
 
     public void setId( int id ) { this.id = id; }
+
+    public void setName(String name) { this.name = name; }
 
     public void setImgId( int imgId ) { this.imgId = imgId; }
 
@@ -51,10 +59,11 @@ public class Team implements Parcelable {
 
     public static final Creator< Team > CREATOR = new Creator< Team >() {
         @Override public Team createFromParcel( Parcel parcel ) {
-            Team team = new Team( parcel.readString() );
+            Team team = new Team();
             team.id = parcel.readInt();
+            team.name = parcel.readString();
             team.imgId = parcel.readInt();
-            team.members = (ArrayList< Member >) parcel.readArrayList( ClassLoader.getSystemClassLoader() );
+            team.members=Arrays.asList((Member[])parcel.readParcelableArray(Member.class.getClassLoader()));
             return team;
         }
 

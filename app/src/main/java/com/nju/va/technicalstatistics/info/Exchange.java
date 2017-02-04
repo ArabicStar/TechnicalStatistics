@@ -19,19 +19,31 @@ public class Exchange implements Serializable {
     private int pointB;
 
     /**
-     * 提出换人的队伍
+     * 换上场的队员
      */
-    private Team teamA;
+    private Member newMem;
 
     /**
      * 下场的队员
      */
     private Member oldMem;
 
-    /**
-     * 换上场的队员
-     */
-    private Member newMem;
+    public Member getOldMem() {
+        return oldMem;
+    }
+
+    public void setOldMem(Member oldMem) {
+        this.oldMem = oldMem;
+    }
+
+    public Member getNewMem() {
+        return newMem;
+    }
+
+    public void setNewMem(Member newMem) {
+        this.newMem = newMem;
+    }
+
 
 
 }

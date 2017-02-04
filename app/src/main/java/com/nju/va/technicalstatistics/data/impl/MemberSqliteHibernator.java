@@ -151,7 +151,8 @@ public class MemberSqliteHibernator implements MemberHibernator {
 
         Member m = null;
         if (cursor.moveToNext()) {
-            m = new Member( cursor.getString( 1 ), cursor.getInt( 2 ), cursor.getInt( 3 ) );
+            @Member.PlayerPosition int pos=cursor.getInt(3);
+            m = new Member( cursor.getString( 1 ), cursor.getInt( 2 ), pos );
             m.setId( cursor.getInt( 0 ) );
             m.setTeam( cursor.getInt( 4 ) );
         }
@@ -178,7 +179,8 @@ public class MemberSqliteHibernator implements MemberHibernator {
         List< Member > list = new ArrayList<>( cursor.getCount() );
         Member m;
         if (cursor.moveToNext()) {
-            m = new Member( cursor.getString( 1 ), cursor.getInt( 2 ), cursor.getInt( 3 ) );
+            @Member.PlayerPosition int pos=cursor.getInt(3);
+            m = new Member( cursor.getString( 1 ), cursor.getInt( 2 ), pos );
             m.setId( cursor.getInt( 0 ) );
             m.setTeam( cursor.getInt( 4 ) );
             list.add( m );
