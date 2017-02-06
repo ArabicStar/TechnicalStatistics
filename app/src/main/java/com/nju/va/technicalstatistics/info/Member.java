@@ -54,8 +54,8 @@ public class Member implements Parcelable, Serializable {
     @Override public int hashCode() { return 31 * teamId + number; }
 
     @Override public boolean equals( Object o ) {
-        if (this == o) return true;
-        if (!( o instanceof Member )) return false;
+        if( this == o ) return true;
+        if( !( o instanceof Member ) ) return false;
 
         Member member = (Member) o;
         return teamId == member.teamId && number == member.number;
@@ -63,7 +63,7 @@ public class Member implements Parcelable, Serializable {
 
     public static final Creator< Member > CREATOR = new Creator< Member >() {
         @Override public Member createFromParcel( Parcel parcel ) {
-            @Member.PlayerPosition int pos=parcel.readInt();
+            @Member.PlayerPosition int pos = parcel.readInt();
             String name = parcel.readString();
             int num = parcel.readInt();
             Member member = new Member( name, num, pos );

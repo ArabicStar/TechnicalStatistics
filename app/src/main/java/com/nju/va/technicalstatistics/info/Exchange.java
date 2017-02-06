@@ -32,7 +32,7 @@ public class Exchange implements Serializable {
         return oldMem;
     }
 
-    public void setOldMem(Member oldMem) {
+    public void setOldMem( Member oldMem ) {
         this.oldMem = oldMem;
     }
 
@@ -40,10 +40,7 @@ public class Exchange implements Serializable {
         return newMem;
     }
 
-    public void setNewMem(Member newMem) {
+    public void setNewMem( Member newMem ) {
         this.newMem = newMem;
     }
-
-
-
 }

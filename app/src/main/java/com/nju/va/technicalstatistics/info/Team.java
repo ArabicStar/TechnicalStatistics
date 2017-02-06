@@ -6,7 +6,6 @@ import android.os.Parcelable;
 import com.nju.va.technicalstatistics.R;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -20,13 +19,12 @@ public class Team implements Parcelable {
 
     public Team() {
         this.imgId = R.drawable.team_img;
-        this.members = new ArrayList<>();
+        this.members = new ArrayList<>( 20 );
     }
 
-    public Team(String name) {
+    public Team( String name ) {
+        this();
         this.name = name;
-        this.imgId = R.drawable.team_img;
-        this.members = new ArrayList<>();
     }
 
     public int getId() { return id; }
@@ -37,16 +35,29 @@ public class Team implements Parcelable {
         return imgId;
     }
 
+    public List< Member > getMembers() { return new ArrayList<>( members ); }
+
     public void setId( int id ) { this.id = id; }
 
-    public void setName(String name) { this.name = name; }
+    public void setName( String name ) { this.name = name; }
 
     public void setImgId( int imgId ) { this.imgId = imgId; }
 
+    public void addMember( Member m ) {
+        members.add( m );
+        m.setTeam( id );
+    }
 
-    public List< Member > getMembers() { return new ArrayList<>( members ); }
+    @Override public boolean equals( Object o ) {
+        if( this == o ) return true;
+        if( !( o instanceof Team ) ) return false;
 
-    public void addMember( Member m ) {members.add( m ); }
+        Team team = (Team) o;
+
+        return id == team.id;
+    }
+
+    @Override public int hashCode() { return id; }
 
     @Override public int describeContents() { return 0; }
 
@@ -54,9 +65,7 @@ public class Team implements Parcelable {
         parcel.writeString( name );
         parcel.writeInt( id );
         parcel.writeInt( imgId );
-//        parcel.writeList(members);
-        parcel.writeTypedList(members);
-
+        parcel.writeTypedList( members );
     }
 
     public static final Creator< Team > CREATOR = new Creator< Team >() {
@@ -65,9 +74,7 @@ public class Team implements Parcelable {
             team.name = parcel.readString();
             team.id = parcel.readInt();
             team.imgId = parcel.readInt();
-//            team.members=Arrays.asList((Member[])parcel.readParcelableArray(Member.class.getClassLoader()));
-//            parcel.readList(team.members,Member.class.getClassLoader());
-            parcel.readTypedList(team.members,Member.CREATOR);
+            parcel.readTypedList( team.members, Member.CREATOR );
             return team;
         }
 

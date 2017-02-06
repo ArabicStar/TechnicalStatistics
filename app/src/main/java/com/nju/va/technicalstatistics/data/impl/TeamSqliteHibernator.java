@@ -42,7 +42,7 @@ public class TeamSqliteHibernator implements TeamHibernator {
     }
 
     @Override public boolean save( Team t ) {
-        if (t == null) return false;
+        if( t == null ) return false;
 
         ContentValues values = team2ContentValues( t );
 
@@ -50,8 +50,8 @@ public class TeamSqliteHibernator implements TeamHibernator {
         db.beginTransaction();
         try {
             isSuccessful = db.insert( TEAM_TABLE_NAME, null, values ) >= 0L;
-            if (isSuccessful) isSuccessful = memberDb.save( t.getMembers() );
-            if (isSuccessful) db.setTransactionSuccessful();
+            if( isSuccessful ) isSuccessful = memberDb.save( t.getMembers() );
+            if( isSuccessful ) db.setTransactionSuccessful();
         } finally {
             db.endTransaction();
         }
@@ -61,7 +61,7 @@ public class TeamSqliteHibernator implements TeamHibernator {
 
 
     @Override public boolean delete( int teamId ) {
-        if (teamId < 0) return false;
+        if( teamId < 0 ) return false;
 
         memberDb.deleteByTeam( teamId );
 
@@ -83,13 +83,13 @@ public class TeamSqliteHibernator implements TeamHibernator {
 
     @Override public boolean update( Team t ) {
         final List< Member > oldMembers = memberDb.findByTeam( t.getId() );
-        if (oldMembers == null) return false;
+        if( oldMembers == null ) return false;
 
         final List< Member > newMembers = t.getMembers();
         final List< Member > deleted = getDeletedMember( oldMembers, newMembers );
-        for (Member m : deleted)
+        for ( Member m : deleted )
             memberDb.delete( m.getId() );
-        for (Member m : newMembers)
+        for ( Member m : newMembers )
             memberDb.saveOrUpdate( m );
 
         final ContentValues values = team2ContentValues( t );
@@ -109,7 +109,7 @@ public class TeamSqliteHibernator implements TeamHibernator {
     }
 
     @Override public Team find( int id ) {
-        if (id < 0) return null;
+        if( id < 0 ) return null;
         final String sql = "SELECT DISTINCT * FROM " + TEAM_TABLE_NAME + " WHERE " + TEAM_ID_COL + "=?";
         final String[] args = { String.valueOf( id ) };
 
@@ -122,16 +122,16 @@ public class TeamSqliteHibernator implements TeamHibernator {
         }
 
         Team t = null;
-        if (cursor.moveToNext()) {
+        if( cursor.moveToNext() ) {
             t = new Team( cursor.getString( 1 ) );
             t.setId( cursor.getInt( 0 ) );
             t.setImgId( cursor.getInt( 2 ) );
         }
         cursor.close();
-        if (t == null) return null;
+        if( t == null ) return null;
 
         List< Member > list = memberDb.findByTeam( id );
-        for (Member m : list)
+        for ( Member m : list )
             t.addMember( m );
 
         return t;
@@ -150,8 +150,8 @@ public class TeamSqliteHibernator implements TeamHibernator {
 
         List< Member > deleted = new ArrayList<>( oldMembers.size() );
         Member tmpMember;
-        for (Member m : oldMembers)
-            if (( tmpMember = newNames.remove( m.getId() ) ) == null) deleted.add( tmpMember );
+        for ( Member m : oldMembers )
+            if( ( tmpMember = newNames.remove( m.getId() ) ) == null ) deleted.add( tmpMember );
 
         return deleted;
 
@@ -160,7 +160,7 @@ public class TeamSqliteHibernator implements TeamHibernator {
     private static final Map< Integer, Member > membersWithId( final List< Member > list ) {
         Map< Integer, Member > map = new HashMap<>( list.size() );
 
-        for (Member m : list)
+        for ( Member m : list )
             map.put( m.getId(), m );
 
         return map;

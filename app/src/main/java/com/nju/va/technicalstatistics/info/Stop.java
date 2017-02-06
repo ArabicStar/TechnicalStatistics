@@ -21,4 +21,8 @@ public class Stop implements Serializable {
      * 哪一只队伍提出暂停
      */
     private int teamA;
+
+    private int gameId;
+
+    private int matchId;
 }

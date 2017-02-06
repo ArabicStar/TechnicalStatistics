@@ -38,7 +38,7 @@ public class MemberSqliteHibernator implements MemberHibernator {
     }
 
     @Override public boolean save( final Member m ) {
-        if (m == null) return false;
+        if( m == null ) return false;
 
         final ContentValues values = member2ContentValues( m );
 
@@ -58,11 +58,11 @@ public class MemberSqliteHibernator implements MemberHibernator {
         boolean result = false;
         db.beginTransaction();
         try {
-            for (Member m : members) {
+            for ( Member m : members ) {
                 result = ( db.insert( MEMBER_TABLE_NAME, null, member2ContentValues( m ) ) >= 0L ) && result;
-                if (!result) break;
+                if( !result ) break;
             }
-            if (result) db.setTransactionSuccessful();
+            if( result ) db.setTransactionSuccessful();
         } finally {
             db.endTransaction();
         }
@@ -70,7 +70,7 @@ public class MemberSqliteHibernator implements MemberHibernator {
     }
 
     @Override public boolean delete( int memberId ) {
-        if (memberId <= 0) return false;
+        if( memberId <= 0 ) return false;
 
         final String where = MEMBER_ID_COL + "=?";
         final String[] args = { String.valueOf( memberId ) };
@@ -89,7 +89,7 @@ public class MemberSqliteHibernator implements MemberHibernator {
     }
 
     @Override public boolean deleteByTeam( int teamId ) {
-        if (teamId <= 0) return false;
+        if( teamId <= 0 ) return false;
         final String where = MEMBER_TEAM_COL + "=?";
         final String[] args = { String.valueOf( teamId ) };
 
@@ -129,12 +129,12 @@ public class MemberSqliteHibernator implements MemberHibernator {
 
     @Override public boolean saveOrUpdate( Member m ) {
         Member tmp = find( m.getId() );
-        if (tmp == null) return save( m );
+        if( tmp == null ) return save( m );
         else return update( m );
     }
 
     @Override public Member find( int id ) {
-        if (id < 0) return null;
+        if( id < 0 ) return null;
 
         final String sql = "SELECT DISTINCT * FROM " + MEMBER_TABLE_NAME + " WHERE " + MEMBER_ID_COL + "=?";
         final String[] args = { String.valueOf( id ) };
@@ -147,11 +147,11 @@ public class MemberSqliteHibernator implements MemberHibernator {
         } finally {
             db.endTransaction();
         }
-        if (cursor == null) return null;
+        if( cursor == null ) return null;
 
         Member m = null;
-        if (cursor.moveToNext()) {
-            @Member.PlayerPosition int pos=cursor.getInt(3);
+        if( cursor.moveToNext() ) {
+            @Member.PlayerPosition int pos = cursor.getInt( 3 );
             m = new Member( cursor.getString( 1 ), cursor.getInt( 2 ), pos );
             m.setId( cursor.getInt( 0 ) );
             m.setTeam( cursor.getInt( 4 ) );
@@ -162,7 +162,7 @@ public class MemberSqliteHibernator implements MemberHibernator {
     }
 
     @Override public List< Member > findByTeam( int teamId ) {
-        if (teamId < 0) return null;
+        if( teamId < 0 ) return null;
         final String sql = "SELECT * FROM " + MEMBER_TABLE_NAME + " WHERE " + MEMBER_TEAM_COL + "=?";
         final String[] args = { String.valueOf( teamId ) };
 
@@ -174,12 +174,12 @@ public class MemberSqliteHibernator implements MemberHibernator {
         } finally {
             db.endTransaction();
         }
-        if (cursor == null) return null;
+        if( cursor == null ) return null;
 
         List< Member > list = new ArrayList<>( cursor.getCount() );
         Member m;
-        if (cursor.moveToNext()) {
-            @Member.PlayerPosition int pos=cursor.getInt(3);
+        if( cursor.moveToNext() ) {
+            @Member.PlayerPosition int pos = cursor.getInt( 3 );
             m = new Member( cursor.getString( 1 ), cursor.getInt( 2 ), pos );
             m.setId( cursor.getInt( 0 ) );
             m.setTeam( cursor.getInt( 4 ) );
