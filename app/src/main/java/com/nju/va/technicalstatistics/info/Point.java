@@ -29,4 +29,10 @@ public class Point implements Serializable {
     public int getId() { return id; }
 
     public void setId( int id ) { this.id = id; }
+
+    public boolean isActive() { return isActive; }
+
+    public String getWhy() { return why; }
+
+    public List< Member > getRelMembers() { return members; }
 }

@@ -1,5 +1,6 @@
 package com.nju.va.technicalstatistics.data.impl;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -13,7 +14,9 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
     private static final String LOG_TAG = "Database";
 
     public static final String DATABASE_NAME = "TECH_STATS";
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
+
+    public static final String VALID_COL = "VALID";
 
     public static final String MEMBER_TABLE_NAME = "MEMBERS";
     public static final String MEMBER_ID_COL = "MEMBER_ID";
@@ -39,6 +42,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String POINT_TABLE_NAME = "POINTS";
     public static final String POINT_ID_COL = "POINT_ID";
+    public static final String POINT_LR_COL = "POINT_LR";
     public static final String POINT_ACTIVE_COL = "POINT_ACTIVE";
     public static final String POINT_WHY_COL = "POINT_WHY";
 
@@ -58,11 +62,18 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
     public static final String EXCHANGE_OLD_COL = "EXCHANGE_OLD_COL";
     public static final String EXCHANGE_NEW_COL = "EXCHANGE_NEW_COL";
 
+    public static final ContentValues INVALIDATE = new ContentValues();
+
+    static {
+        INVALIDATE.put( VALID_COL, Boolean.FALSE );
+    }
+
     private static final String CREATE_TEAM_TABLE = "CREATE TABLE IF NOT EXISTS " + TEAM_TABLE_NAME +
             "(" +
             TEAM_ID_COL + " INTEGER AUTO_INCREMENT, " +
             TEAM_NAME_COL + " VARCHAR(100) NOT NULL, " +
             TEAM_IMG_COL + " INTEGER, " +
+            VALID_COL + " BOOLEAN, " +
             "PRIMARY KEY (" + TEAM_ID_COL + ") " +
             ")";
 
@@ -73,6 +84,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
             MEMBER_NUM_COL + " INTEGER NOT NULL CHECK(MEMBER_NUM>0), " +
             MEMBER_POS_COL + " INTEGER NOT NULL CHECK(MEMBER_POS>=0 AND MEMBER_POS<=4, " +
             MEMBER_TEAM_COL + " INTEGER NOT NULL, " +
+            VALID_COL + " BOOLEAN, " +
             "PRIMARY KEY (" + MEMBER_ID_COL + "), " +
             "FOREIGN KEY (" + MEMBER_TEAM_COL + ") REFERENCES " + TEAM_TABLE_NAME + "(" + TEAM_ID_COL + ") " +
             ")";
@@ -101,6 +113,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
             "(" +
             POINT_ID_COL + " INTEGER AUTO_INCREMENT, " +
             GAME_ID_COL + " INTEGER NOT NULL, " +
+            POINT_LR_COL + " BOOLEAN, " +//true indicates left, fakse indicates right
             POINT_ACTIVE_COL + " BOOLEAN, " +
             POINT_WHY_COL + " VARCHAR(50), " +
             "PRIMARY KEY (" + POINT_ID_COL + "), " +

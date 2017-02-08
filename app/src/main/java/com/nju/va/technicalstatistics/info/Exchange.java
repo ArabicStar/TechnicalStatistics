@@ -27,6 +27,7 @@ public class Exchange implements Serializable {
      * 下场的队员
      */
     private Member oldMem;
+    private int id;
 
     public Member getOldMem() {
         return oldMem;
@@ -43,4 +44,8 @@ public class Exchange implements Serializable {
     public void setNewMem( Member newMem ) {
         this.newMem = newMem;
     }
+
+    public int getId() { return id; }
+
+    public int getExchangeTeam() { return newMem.getTeam(); }
 }

@@ -75,11 +75,10 @@ public class MemberSqliteHibernator implements MemberHibernator {
         final String where = MEMBER_ID_COL + "=?";
         final String[] args = { String.valueOf( memberId ) };
 
-
         db.beginTransaction();
         boolean result = false;
         try {
-            result = db.delete( MEMBER_TABLE_NAME, where, args ) > 0;
+            result = db.update( MEMBER_TABLE_NAME, INVALIDATE, where, args ) > 0;
             db.setTransactionSuccessful();
         } finally {
             db.endTransaction();
@@ -96,7 +95,7 @@ public class MemberSqliteHibernator implements MemberHibernator {
         db.beginTransaction();
         boolean result = false;
         try {
-            result = db.delete( MEMBER_TABLE_NAME, where, args ) > 0;
+            result = db.update( MEMBER_TABLE_NAME, INVALIDATE, where, args ) > 0;
             db.setTransactionSuccessful();
         } finally {
             db.endTransaction();
@@ -106,13 +105,10 @@ public class MemberSqliteHibernator implements MemberHibernator {
     }
 
     @Override public boolean update( Member m ) {
-        ContentValues values = new ContentValues();
-        values.put( MEMBER_ID_COL, m.getId() );
-        values.put( MEMBER_NAME_COL, m.getName() );
-        values.put( MEMBER_NUM_COL, m.getNumber() );
-        values.put( MEMBER_POS_COL, m.getPosition() );
-        values.put( MEMBER_TEAM_COL, m.getTeam() );
-        final String where = MEMBER_ID_COL + "=?";
+        if( m == null ) return false;
+
+        ContentValues values = member2ContentValues( m );
+        final String where = MEMBER_ID_COL + "=? AND " + VALID_COL + "=TRUE";
         final String[] args = { String.valueOf( m.getId() ) };
 
         db.beginTransaction();
@@ -163,7 +159,7 @@ public class MemberSqliteHibernator implements MemberHibernator {
 
     @Override public List< Member > findByTeam( int teamId ) {
         if( teamId < 0 ) return null;
-        final String sql = "SELECT * FROM " + MEMBER_TABLE_NAME + " WHERE " + MEMBER_TEAM_COL + "=?";
+        final String sql = "SELECT * FROM " + MEMBER_TABLE_NAME + " WHERE " + MEMBER_TEAM_COL + "=? AND " + VALID_COL + " =TRUE";
         final String[] args = { String.valueOf( teamId ) };
 
         db.beginTransaction();
@@ -196,6 +192,7 @@ public class MemberSqliteHibernator implements MemberHibernator {
         values.put( MEMBER_NUM_COL, m.getNumber() );
         values.put( MEMBER_POS_COL, m.getPosition() );
         values.put( MEMBER_TEAM_COL, m.getTeam() );
+        values.put( VALID_COL, Boolean.TRUE );
         return values;
     }
 }
