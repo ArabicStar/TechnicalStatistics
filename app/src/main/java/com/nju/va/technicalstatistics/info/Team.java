@@ -37,6 +37,8 @@ public class Team implements Parcelable {
 
     public List< Member > getMembers() { return new ArrayList<>( members ); }
 
+    public List< Member > getOwnMembers() { return members; }
+
     public void setId( int id ) { this.id = id; }
 
     public void setName( String name ) { this.name = name; }

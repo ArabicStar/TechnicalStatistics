@@ -3,7 +3,9 @@ package com.nju.va.technicalstatistics.activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -26,7 +28,7 @@ public class AddTeamActivity extends AppCompatActivity {
         switch (requestCode){
             case 1:
                 if(resultCode==RESULT_OK){
-                    team.addMember((Member)data.getSerializableExtra("member_data"));
+                    team.addMember((Member)data.getParcelableExtra("member_data"));
                     adapter.notifyDataSetChanged();
                 }
                 break;
@@ -46,6 +48,20 @@ public class AddTeamActivity extends AppCompatActivity {
         }else
             team = new Team();
 
+        final ListView memberList = (ListView) findViewById(R.id.member_list);
+        adapter = new MemberAdapter(AddTeamActivity.this,R.layout.line_member,team.getOwnMembers());
+        memberList.setAdapter(adapter);
+        memberList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        memberList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if(memberList.isItemChecked(i))
+                    view.setBackgroundResource(R.color.darkskyblue);
+                else
+                    view.setBackgroundResource(R.color.transparent);
+            }
+        });
+
         final Button cancelBtn = (Button)findViewById(R.id.cancel);
         cancelBtn.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
@@ -61,9 +77,20 @@ public class AddTeamActivity extends AppCompatActivity {
             }
         });
 
-        final ListView memberList = (ListView) findViewById(R.id.member_list);
-        adapter = new MemberAdapter(AddTeamActivity.this,R.layout.line_member,team.getMembers());
-        memberList.setAdapter(adapter);
+        final Button delMemberBtn = (Button)findViewById(R.id.delete_member_button);
+        delMemberBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int position = memberList .getCheckedItemPosition();     // 即获取选中位置
+                if(ListView.INVALID_POSITION != position){
+                    Log.i("position",Integer.toString(position));
+                    team.getOwnMembers().remove(position);
+                    adapter.notifyDataSetChanged();
+                }else{
+                    Toast.makeText(getApplicationContext(),"请选择要删除的队员",Toast.LENGTH_SHORT);
+                }
+            }
+        });
 
         final TextView nameView = (TextView) findViewById(R.id.name);
         nameView.setText(team.getName());
