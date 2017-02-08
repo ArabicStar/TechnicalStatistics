@@ -12,6 +12,7 @@ import com.nju.va.technicalstatistics.R;
 import com.nju.va.technicalstatistics.adapter.FragAdapter;
 import com.nju.va.technicalstatistics.fragment.HowFragment;
 import com.nju.va.technicalstatistics.fragment.TeamFragment;
+import com.nju.va.technicalstatistics.fragment.WhoFragment;
 import com.nju.va.technicalstatistics.fragment.WhyFragment;
 
 import net.simonvt.menudrawer.MenuDrawer;
@@ -28,7 +29,7 @@ public class MatchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         mDrawer = MenuDrawer.attach(this, Position.BOTTOM);
-        mDrawer.setContentView(R.layout.activity_score);
+        mDrawer.setContentView(R.layout.activity_match);
         mDrawer.setMenuView(R.layout.menu_score_detail);
 
         Button open = (Button)findViewById(R.id.open) ;
@@ -50,6 +51,7 @@ public class MatchActivity extends AppCompatActivity {
         fragments.add(new TeamFragment());
         fragments.add(new WhyFragment());
         fragments.add(new HowFragment());
+        fragments.add(new WhoFragment());
         FragAdapter adapter = new FragAdapter(getSupportFragmentManager(), fragments);
 
         //设定适配器

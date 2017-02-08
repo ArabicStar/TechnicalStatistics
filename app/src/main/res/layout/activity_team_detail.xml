@@ -44,12 +44,6 @@
                 android:textSize="20sp"
                 android:text="队员组成"/>
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="+"
-                android:id="@+id/button2" />
-
         </LinearLayout>
 
         <ListView
@@ -63,18 +57,8 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:weightSum="2"
+        android:weightSum="1"
         android:layout_height="wrap_content">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="删除"
-            android:layout_weight="1"
-            android:id="@+id/button"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginBottom="8dp" />
 
         <Button
             android:layout_width="wrap_content"
@@ -83,7 +67,7 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:text="修改"
-            android:id="@+id/button3" />
+            android:id="@+id/modify" />
     </LinearLayout>
 
 </LinearLayout>

@@ -10,6 +10,9 @@ import java.util.List;
  */
 
 public class Point implements Serializable {
+
+    public static final String[] METHOD_NAME = new String[]{ "扣球", "发球", "拦网", "探头", "接发球", "防守", "二传", "犯规","其它"};
+    public static final String[] METHOD_KEY = new String[]{ "K", "F", "L", "T", "J", "S", "E", "X","…"};
     private int id;
     /**
      * 每一分有一到三人为其作出贡献
@@ -24,9 +27,16 @@ public class Point implements Serializable {
     /**
      * 得分方式，如：进攻等
      */
-    private String why;
+    private String method;
+
+    /**
+     * 备注
+     */
+    private String remark;
 
     public int getId() { return id; }
+
+    public String getMethod(){return method;}
 
     public void setId( int id ) { this.id = id; }
 

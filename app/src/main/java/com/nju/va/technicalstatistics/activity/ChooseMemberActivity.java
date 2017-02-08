@@ -28,7 +28,7 @@ public class ChooseMemberActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_member);
 
-        match = (Match) getIntent().getSerializableExtra("match_data");
+        match = (Match) getIntent().getParcelableExtra("match_data");
 
         MemberAdapter adapter1 = new MemberAdapter(ChooseMemberActivity.this,R.layout.line_member, match.getLeftTeam().getMembers());
         MemberAdapter adapter2 = new MemberAdapter(ChooseMemberActivity.this,R.layout.line_member, match.getRightTeam().getMembers());
