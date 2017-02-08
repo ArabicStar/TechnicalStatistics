@@ -23,6 +23,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="队伍名称"
+                android:textSize="20dp"
                 android:id="@+id/name" />
 
         </LinearLayout>
@@ -40,6 +41,12 @@
                 android:layout_weight="1"
                 android:textSize="20dp"
                 android:text="队员组成"/>
+
+            <Button
+                android:text="—"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/delete_member_button" />
 
             <Button
                 android:layout_width="wrap_content"

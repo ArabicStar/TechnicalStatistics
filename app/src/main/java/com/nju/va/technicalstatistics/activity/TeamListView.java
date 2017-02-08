@@ -43,7 +43,9 @@ public class TeamListView extends AppCompatActivity {
         Button addBtn = (Button)findViewById(R.id.add_team_button);
         addBtn.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                startActivity(new Intent("android.intent.action.ADDTEAM"));
+                Intent intent= new Intent(TeamListView.this,AddTeamActivity.class);
+                intent.putExtra("from",1);
+                startActivity(intent);
             }
         });
     }
@@ -52,18 +54,20 @@ public class TeamListView extends AppCompatActivity {
      * 用于测试的方法，生成一些队伍信息
      */
     private void initTeams(){
-        Team t1 = new Team("江苏男子排球队");
-        Member m1 = new Member("张晨",6, Member.CHIEF_SPIKER);
-        t1.addMember(m1);
-        Member m2 = new Member("于垚辰",5, Member.CHIEF_SETTER);
-        t1.addMember(m2);
-        teams.add(t1);
-        Team t2 = new Team("上海金色年华男子排球队");
-        teams.add(t2);
-        Team t3 = new Team("八一盈冠男子排球队");
-        teams.add(t3);
-        Team t4 = new Team("山东体彩男子排球队");
-        teams.add(t4);
+//        Team t1 = new Team("江苏男子排球队");
+//        Member m1 = new Member("张晨",6, Member.CHIEF_SPIKER);
+//        t1.addMember(m1);
+//        Member m2 = new Member("于垚辰",5, Member.CHIEF_SETTER);
+//        t1.addMember(m2);
+//        teams.add(t1);
+//        Team t2 = new Team("上海金色年华男子排球队");
+//        teams.add(t2);
+//        Team t3 = new Team("八一盈冠男子排球队");
+//        teams.add(t3);
+//        Team t4 = new Team("山东体彩男子排球队");
+//        teams.add(t4);
+
+
     }
 
 }
