@@ -5,7 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.SparseArray;
+import android.util.Log;
+import android.util.LongSparseArray;
 
 import com.nju.va.technicalstatistics.data.MemberHibernator;
 import com.nju.va.technicalstatistics.data.TeamHibernator;
@@ -17,6 +18,7 @@ import java.util.List;
 
 import static com.nju.va.technicalstatistics.data.impl.DatabaseHelper.DATABASE_NAME;
 import static com.nju.va.technicalstatistics.data.impl.DatabaseHelper.INVALIDATE;
+import static com.nju.va.technicalstatistics.data.impl.DatabaseHelper.LOG_TAG;
 import static com.nju.va.technicalstatistics.data.impl.DatabaseHelper.TEAM_ID_COL;
 import static com.nju.va.technicalstatistics.data.impl.DatabaseHelper.TEAM_IMG_COL;
 import static com.nju.va.technicalstatistics.data.impl.DatabaseHelper.TEAM_NAME_COL;
@@ -62,6 +64,9 @@ public class TeamSqliteHibernator implements TeamHibernator {
             if( result ) result = memberDb.save( t.getMembers() );
             //roll back if any operation fails
             if( result ) db.setTransactionSuccessful();
+        } catch ( Exception e ) {
+            result = false;
+            Log.w( LOG_TAG, "save team failed: ", e );
         } finally {
             db.endTransaction();
         }
@@ -70,7 +75,7 @@ public class TeamSqliteHibernator implements TeamHibernator {
     }
 
 
-    @Override public boolean delete( int teamId ) {
+    @Override public boolean delete( long teamId ) {
         if( teamId < 0 ) return false;
 
         memberDb.deleteByTeam( teamId );
@@ -78,12 +83,14 @@ public class TeamSqliteHibernator implements TeamHibernator {
         final String where = TEAM_ID_COL + "=?";
         final String[] args = { String.valueOf( teamId ) };
 
+        boolean result = true;
         db.beginTransaction();
-
-        boolean result = false;
         try {
-            result = db.update( TEAM_TABLE_NAME, INVALIDATE, where, args ) > 0;
+            db.update( TEAM_TABLE_NAME, INVALIDATE, where, args );
             db.setTransactionSuccessful();
+        } catch ( Exception e ) {
+            result = false;
+            Log.w( LOG_TAG, "delete team failed: ", e );
         } finally {
             db.endTransaction();
         }
@@ -97,44 +104,52 @@ public class TeamSqliteHibernator implements TeamHibernator {
                         TEAM_ID_COL + "=? AND " + VALID_COL + "=TRUE",
                 new String[]{ String.valueOf( t.getId() ) } );
         if( tmp.getCount() == 0 ) return false;
-        if( tmp.getInt( 0 ) == 0 ) return false;//existed item has been deleted
         tmp.close();
 
-        //update information of the team itself
+
         final ContentValues values = team2ContentValues( t );
         final String where = TEAM_ID_COL + "=?";
         final String[] args = { String.valueOf( t.getId() ) };
 
-        boolean result = false;
+        boolean result = true;
         db.beginTransaction();
         try {
-            result = db.update( TEAM_TABLE_NAME, values, where, args ) > 0;
-            db.setTransactionSuccessful();
+            //update information of the team itself
+            db.update( TEAM_TABLE_NAME, values, where, args );
+
+            //cascade update its members' information
+            //add or update members in new team
+            final List< Member > newMembers = t.getMembers();
+            for ( Member m : newMembers )
+                if( !( result = memberDb.update( m ) ) ) break;
+
+
+            if( result ) {
+                //delete members who are in old team but not in new team
+                final List< Member > oldMembers = memberDb.findByTeam( t.getId() );
+                if( oldMembers != null )
+                    for ( Member m : getDeletedMember( oldMembers, newMembers ) )
+                        if( !( result = memberDb.delete( m.getId() ) ) ) break;
+
+            }
+            //end cascade
+
+            if( result ) db.setTransactionSuccessful();
+        } catch ( Exception e ) {
+            result = false;
+            Log.w( LOG_TAG, "update team failed: ", e );
         } finally {
             db.endTransaction();
         }
-        //end
-        if( !result ) return false;//break if update fails
 
-        //cascade update its members' information
-        //add or update members in new team
-        final List< Member > newMembers = t.getMembers();
-        for ( Member m : newMembers )
-            memberDb.saveOrUpdate( m );
-
-        //delete members who are in old team but not in new team
-        final List< Member > oldMembers = memberDb.findByTeam( t.getId() );
-        if( oldMembers != null ) for ( Member m : getDeletedMember( oldMembers, newMembers ) )
-            memberDb.delete( m.getId() );
-        //end cascade
-        return true;
+        return result;
     }
 
-    @Override public Team find( int id ) {
+    @Override public Team find( long id ) {
         return find( id, true );
     }
 
-    @Override public Team find( int id, boolean ignoreDeleted ) {
+    @Override public Team find( long id, boolean ignoreDeleted ) {
         if( id < 0 ) return null;
         final String sql =
                 "SELECT DISTINCT * FROM " + TEAM_TABLE_NAME + " WHERE " + TEAM_ID_COL + "=? AND " +
@@ -142,12 +157,15 @@ public class TeamSqliteHibernator implements TeamHibernator {
         final String[] args = { String.valueOf( id ), String.valueOf( ignoreDeleted ) };
 
         db.beginTransaction();
-        Cursor cursor;
+        Cursor cursor = null;
         try {
             cursor = db.rawQuery( sql, args );
+        } catch ( Exception e ) {
+            Log.w( LOG_TAG, "find team failed: ", e );
         } finally {
             db.endTransaction();
         }
+        if( cursor == null ) return null;
 
         Team t = null;
         if( cursor.moveToNext() ) {
@@ -159,6 +177,7 @@ public class TeamSqliteHibernator implements TeamHibernator {
         if( t == null ) return null;
 
         List< Member > list = memberDb.findByTeam( id );
+        if( list == null ) return t;
         for ( Member m : list )
             t.addMember( m );
 
@@ -167,17 +186,21 @@ public class TeamSqliteHibernator implements TeamHibernator {
 
     @Override public List< Team > findByName( String keyword ) {
         if( keyword == null ) return null;
-        final String sql = "SELECT DISTINCT * FROM " + TEAM_TABLE_NAME + " WHERE " + TEAM_NAME_COL +
+
+        final String sql = "SELECT * FROM " + TEAM_TABLE_NAME + " WHERE " + TEAM_NAME_COL +
                 "LIKE '%?%' AND " + VALID_COL + "=TRUE";
         final String[] args = { keyword };
 
         db.beginTransaction();
-        Cursor cursor;
+        Cursor cursor = null;
         try {
             cursor = db.rawQuery( sql, args );
+        } catch ( Exception e ) {
+            Log.w( LOG_TAG, "find team by name failed: ", e );
         } finally {
             db.endTransaction();
         }
+        if( cursor == null ) return new ArrayList<>();
 
         List< Team > list = new ArrayList<>( cursor.getCount() );
         Team tmp;
@@ -210,7 +233,7 @@ public class TeamSqliteHibernator implements TeamHibernator {
 
     private static List< Member > getDeletedMember( final List< Member > oldMembers,
                                                     final List< Member > newMembers ) {
-        SparseArray< Member > newNames = membersWithId( newMembers );
+        LongSparseArray< Member > newNames = membersWithId( newMembers );
 
         List< Member > deleted = new ArrayList<>( oldMembers.size() );
         for ( Member m : oldMembers )
@@ -220,8 +243,8 @@ public class TeamSqliteHibernator implements TeamHibernator {
 
     }
 
-    private static SparseArray< Member > membersWithId( final List< Member > list ) {
-        SparseArray< Member > map = new SparseArray< Member >( list.size() );
+    private static LongSparseArray< Member > membersWithId( final List< Member > list ) {
+        LongSparseArray< Member > map = new LongSparseArray<>( list.size() );
 
         for ( Member m : list )
             map.put( m.getId(), m );

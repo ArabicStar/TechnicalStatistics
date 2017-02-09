@@ -11,9 +11,12 @@ import java.util.List;
 
 public class Point implements Serializable {
 
-    public static final String[] METHOD_NAME = new String[]{ "扣球", "发球", "拦网", "探头", "接发球", "防守", "二传", "犯规","其它"};
-    public static final String[] METHOD_KEY = new String[]{ "K", "F", "L", "T", "J", "S", "E", "X","…"};
-    private int id;
+    public static final String[] METHOD_NAME =
+            new String[]{ "扣球", "发球", "拦网", "探头", "接发球", "防守", "二传", "犯规", "其它" };
+    public static final String[] METHOD_KEY =
+            new String[]{ "K", "F", "L", "T", "J", "S", "E", "X", "…" };
+    private long id;
+    private long winnerTeamId;
     /**
      * 每一分有一到三人为其作出贡献
      */
@@ -34,15 +37,17 @@ public class Point implements Serializable {
      */
     private String remark;
 
-    public int getId() { return id; }
+    public long getId() { return id; }
 
-    public String getMethod(){return method;}
+    public String getMethod() { return method; }
 
-    public void setId( int id ) { this.id = id; }
+    public String getRemark() { return remark; }
+
+    public long getWinnerTeamId() { return winnerTeamId; }
 
     public boolean isActive() { return isActive; }
 
-    public String getWhy() { return why; }
+    public void setId( int id ) { this.id = id; }
 
     public List< Member > getRelMembers() { return members; }
 }

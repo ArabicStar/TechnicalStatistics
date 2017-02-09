@@ -23,8 +23,8 @@ public class Member implements Parcelable, Serializable {
     public static final int CHIEF_SETTER = 0x4;
     private static final String[] POSITION_NAME = new String[]{ "主攻", "副攻", "自由人", "二传", "接应" };
 
-    private int teamId;
-    private int id;
+    private long teamId;
+    private long id;
     private int number;
     private String name;
     @PlayerPosition private int position;
@@ -35,11 +35,11 @@ public class Member implements Parcelable, Serializable {
         this.position = position;
     }
 
-    public void setTeam( int teamId ) { this.teamId = teamId; }
+    public void setTeam( long teamId ) { this.teamId = teamId; }
 
     public void setId( int id ) { this.id = id; }
 
-    public int getId() { return id; }
+    public long getId() { return id; }
 
     public int getNumber() { return number; }
 
@@ -47,18 +47,24 @@ public class Member implements Parcelable, Serializable {
 
     @PlayerPosition public int getPosition() { return position; }
 
-    public int getTeam() { return teamId; }
+    public long getTeam() { return teamId; }
 
     public String getPositionString() { return POSITION_NAME[position]; }
-
-    @Override public int hashCode() { return 31 * teamId + number; }
 
     @Override public boolean equals( Object o ) {
         if( this == o ) return true;
         if( !( o instanceof Member ) ) return false;
 
         Member member = (Member) o;
+
         return teamId == member.teamId && number == member.number;
+
+    }
+
+    @Override public int hashCode() {
+        int result = (int) ( teamId ^ ( teamId >>> 32 ) );
+        result = 31 * result + number;
+        return result;
     }
 
     public static final Creator< Member > CREATOR = new Creator< Member >() {
@@ -81,7 +87,7 @@ public class Member implements Parcelable, Serializable {
         parcel.writeInt( position );
         parcel.writeString( name );
         parcel.writeInt( number );
-        parcel.writeInt( id );
-        parcel.writeInt( teamId );
+        parcel.writeLong( id );
+        parcel.writeLong( teamId );
     }
 }

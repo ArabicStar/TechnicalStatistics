@@ -24,7 +24,7 @@ public interface TeamHibernator {
      * @param teamId the team id
      * @return result of operation
      */
-    public boolean delete( int teamId );
+    public boolean delete( long teamId );
 
     /**
      * Update a persisted team entity specified by the argument's id.<br/>
@@ -40,7 +40,7 @@ public interface TeamHibernator {
      * @param id team id
      * @return team instance with relevant {@link Member} instances loaded already.
      */
-    public Team find( int id );
+    public Team find( long id );
 
     /**
      * Find team by id.<br/>
@@ -49,7 +49,7 @@ public interface TeamHibernator {
      * @param ignoreDeleted the ignore deleted
      * @return the team
      */
-    public Team find( int id, boolean ignoreDeleted );
+    public Team find( long id, boolean ignoreDeleted );
 
     /**
      * Find by name list.

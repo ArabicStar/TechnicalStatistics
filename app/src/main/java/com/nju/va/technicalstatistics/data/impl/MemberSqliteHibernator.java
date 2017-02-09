@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.nju.va.technicalstatistics.data.MemberHibernator;
 import com.nju.va.technicalstatistics.info.Member;
@@ -12,6 +13,8 @@ import com.nju.va.technicalstatistics.info.Member;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import javax.security.auth.login.LoginException;
 
 import static com.nju.va.technicalstatistics.data.impl.DatabaseHelper.*;
 
@@ -29,7 +32,8 @@ public class MemberSqliteHibernator implements MemberHibernator {
     }
 
     public MemberSqliteHibernator( Context context ) {
-        helper = new DatabaseHelper( context, DatabaseHelper.DATABASE_NAME, null, DatabaseHelper.DATABASE_VERSION );
+        helper = new DatabaseHelper( context, DatabaseHelper.DATABASE_NAME, null,
+                DatabaseHelper.DATABASE_VERSION );
         db = helper.getWritableDatabase();
     }
 
@@ -47,6 +51,9 @@ public class MemberSqliteHibernator implements MemberHibernator {
         try {
             result = db.insert( MEMBER_TABLE_NAME, null, values ) >= 0L;
             db.setTransactionSuccessful();
+        } catch ( Exception e ) {
+            result = false;
+            Log.e( LOG_TAG, "save member failed: ", e );
         } finally {
             db.endTransaction();
         }
@@ -55,31 +62,40 @@ public class MemberSqliteHibernator implements MemberHibernator {
     }
 
     @Override public boolean save( Collection< Member > members ) {
-        boolean result = false;
+        if( members == null ) return false;
+
+        boolean result = true;
         db.beginTransaction();
         try {
             for ( Member m : members ) {
-                result = ( db.insert( MEMBER_TABLE_NAME, null, member2ContentValues( m ) ) >= 0L ) && result;
+                result = db.insert( MEMBER_TABLE_NAME, null, member2ContentValues( m ) ) >= 0L;
                 if( !result ) break;
             }
+
             if( result ) db.setTransactionSuccessful();
+        } catch ( Exception e ) {
+            result = false;
+            Log.e( LOG_TAG, "save members failed: ", e );
         } finally {
             db.endTransaction();
         }
         return result;
     }
 
-    @Override public boolean delete( int memberId ) {
+    @Override public boolean delete( long memberId ) {
         if( memberId <= 0 ) return false;
 
         final String where = MEMBER_ID_COL + "=?";
         final String[] args = { String.valueOf( memberId ) };
 
+        boolean result = true;
         db.beginTransaction();
-        boolean result = false;
         try {
-            result = db.update( MEMBER_TABLE_NAME, INVALIDATE, where, args ) > 0;
+            db.update( MEMBER_TABLE_NAME, INVALIDATE, where, args );
             db.setTransactionSuccessful();
+        } catch ( Exception e ) {
+            result = false;
+            Log.w( LOG_TAG, "delete member failed: ", e );
         } finally {
             db.endTransaction();
         }
@@ -87,16 +103,20 @@ public class MemberSqliteHibernator implements MemberHibernator {
         return result;
     }
 
-    @Override public boolean deleteByTeam( int teamId ) {
+    @Override public boolean deleteByTeam( long teamId ) {
         if( teamId <= 0 ) return false;
-        final String where = MEMBER_TEAM_COL + "=?";
+
+        final String where = TEAM_ID_COL + "=?";
         final String[] args = { String.valueOf( teamId ) };
 
         db.beginTransaction();
-        boolean result = false;
+        boolean result = true;
         try {
-            result = db.update( MEMBER_TABLE_NAME, INVALIDATE, where, args ) > 0;
+            db.update( MEMBER_TABLE_NAME, INVALIDATE, where, args );
             db.setTransactionSuccessful();
+        } catch ( Exception e ) {
+            result = false;
+            Log.w( LOG_TAG, "delete members by team failed: ", e );
         } finally {
             db.endTransaction();
         }
@@ -112,10 +132,13 @@ public class MemberSqliteHibernator implements MemberHibernator {
         final String[] args = { String.valueOf( m.getId() ) };
 
         db.beginTransaction();
-        boolean result = false;
+        boolean result = true;
         try {
-            result = db.update( MEMBER_TABLE_NAME, values, where, args ) > 0;
+            db.update( MEMBER_TABLE_NAME, values, where, args );
             db.setTransactionSuccessful();
+        } catch ( Exception e ) {
+            result = false;
+            Log.w( LOG_TAG, "update member failed: ", e );
         } finally {
             db.endTransaction();
         }
@@ -129,10 +152,11 @@ public class MemberSqliteHibernator implements MemberHibernator {
         else return update( m );
     }
 
-    @Override public Member find( int id ) {
+    @Override public Member find( long id ) {
         if( id < 0 ) return null;
 
-        final String sql = "SELECT DISTINCT * FROM " + MEMBER_TABLE_NAME + " WHERE " + MEMBER_ID_COL + "=?";
+        final String sql =
+                "SELECT DISTINCT * FROM " + MEMBER_TABLE_NAME + " WHERE " + MEMBER_ID_COL + "=?";
         final String[] args = { String.valueOf( id ) };
 
         db.beginTransaction();
@@ -140,6 +164,8 @@ public class MemberSqliteHibernator implements MemberHibernator {
         try {
             cursor = db.rawQuery( sql, args );
             db.setTransactionSuccessful();
+        } catch ( Exception e ) {
+            Log.w( LOG_TAG, "find member failed: ", e );
         } finally {
             db.endTransaction();
         }
@@ -152,14 +178,15 @@ public class MemberSqliteHibernator implements MemberHibernator {
             m.setId( cursor.getInt( 0 ) );
             m.setTeam( cursor.getInt( 4 ) );
         }
-
         cursor.close();
         return m;
     }
 
-    @Override public List< Member > findByTeam( int teamId ) {
+    @Override public List< Member > findByTeam( long teamId ) {
         if( teamId < 0 ) return null;
-        final String sql = "SELECT * FROM " + MEMBER_TABLE_NAME + " WHERE " + MEMBER_TEAM_COL + "=? AND " + VALID_COL + " =TRUE";
+        final String sql =
+                "SELECT * FROM " + MEMBER_TABLE_NAME + " WHERE " + TEAM_ID_COL + "=? AND " +
+                        VALID_COL + " =TRUE";
         final String[] args = { String.valueOf( teamId ) };
 
         db.beginTransaction();
@@ -167,10 +194,12 @@ public class MemberSqliteHibernator implements MemberHibernator {
         try {
             cursor = db.rawQuery( sql, args );
             db.setTransactionSuccessful();
+        } catch ( Exception e ) {
+            Log.w( LOG_TAG, "find members by team failed: ", e );
         } finally {
             db.endTransaction();
         }
-        if( cursor == null ) return null;
+        if( cursor == null ) return new ArrayList<>();
 
         List< Member > list = new ArrayList<>( cursor.getCount() );
         Member m;
@@ -185,13 +214,13 @@ public class MemberSqliteHibernator implements MemberHibernator {
         return list;
     }
 
-    private static final ContentValues member2ContentValues( final Member m ) {
+    private static ContentValues member2ContentValues( final Member m ) {
         ContentValues values = new ContentValues();
         values.put( MEMBER_ID_COL, m.getId() );
         values.put( MEMBER_NAME_COL, m.getName() );
         values.put( MEMBER_NUM_COL, m.getNumber() );
         values.put( MEMBER_POS_COL, m.getPosition() );
-        values.put( MEMBER_TEAM_COL, m.getTeam() );
+        values.put( TEAM_ID_COL, m.getTeam() );
         values.put( VALID_COL, Boolean.TRUE );
         return values;
     }

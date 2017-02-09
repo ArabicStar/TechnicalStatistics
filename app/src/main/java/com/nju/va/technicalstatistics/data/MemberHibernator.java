@@ -14,17 +14,17 @@ public interface MemberHibernator {
 
     public boolean save( Collection< Member > members );
 
-    public boolean delete( int memberId );
+    public boolean delete( long memberId );
 
-    public boolean deleteByTeam( int teamId );
+    public boolean deleteByTeam( long teamId );
 
     public boolean update( Member m );
 
     public boolean saveOrUpdate( Member m );
 
-    public Member find( int id );
+    public Member find( long id );
 
-    public List< Member > findByTeam( int teamId );
+    public List< Member > findByTeam( long teamId );
 
     public void close();
 }
