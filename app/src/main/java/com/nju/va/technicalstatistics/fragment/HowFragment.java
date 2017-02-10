@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 
@@ -22,9 +23,20 @@ public class HowFragment extends Fragment {
         // TODO Auto-generated method stub
         View view= inflater.inflate(R.layout.page3_how, container, false);
 
-        GridView methodView = (GridView) view.findViewById(R.id.method_view);
+        final GridView methodView = (GridView) view.findViewById(R.id.method_view);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1, Point.METHOD_NAME);
         methodView.setAdapter(adapter);
+        methodView.setChoiceMode(GridView.CHOICE_MODE_SINGLE);
+        methodView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if(methodView.isItemChecked(i))
+                    view.setBackgroundResource(R.color.darkskyblue);
+                else
+                    view.setBackgroundResource(R.color.transparent);
+
+            }
+        });
         return view;
     }
 }

@@ -5,21 +5,10 @@
     android:layout_height="wrap_content"
     android:padding="10dp">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:text="己方得分"
-        android:layout_weight="1"
-        android:id="@+id/button4"
-        android:layout_gravity="center_vertical"
-        android:layout_marginRight="5dp" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_weight="1"
-        android:text="对方失误"
-        android:id="@+id/button5"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="5dp" />
+    <GridView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id= "@+id/why"
+        android:numColumns="2"/>
 </LinearLayout>

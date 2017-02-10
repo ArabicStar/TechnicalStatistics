@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -11,6 +12,8 @@ import android.widget.ListView;
 
 import com.nju.va.technicalstatistics.R;
 import com.nju.va.technicalstatistics.adapter.TeamAdapter;
+import com.nju.va.technicalstatistics.data.TeamHibernator;
+import com.nju.va.technicalstatistics.data.impl.TeamSqliteHibernator;
 import com.nju.va.technicalstatistics.info.Member;
 import com.nju.va.technicalstatistics.info.Team;
 
@@ -18,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TeamListView extends AppCompatActivity {
-    private List<Team> teams = new ArrayList<Team>();
+    private List<Team> teams;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,18 +30,24 @@ public class TeamListView extends AppCompatActivity {
 
         initTeams();
 
-        TeamAdapter adapter = new TeamAdapter(TeamListView.this,R.layout.line_team, teams);
-        final ListView teamList = (ListView) findViewById(R.id.team_list);
-        teamList.setAdapter(adapter);
-        teamList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Team team = (Team) teamList.getItemAtPosition(position);
-                Intent intent = new Intent(TeamListView.this,TeamDetailActivity.class);
-                intent.putExtra("team_data",(Parcelable) team);
-                startActivity(intent);
-            }
-        });
+        if(teams!=null){
+            Log.i("连接数据库","成功");
+
+            TeamAdapter adapter = new TeamAdapter(TeamListView.this,R.layout.line_team, teams);
+            final ListView teamList = (ListView) findViewById(R.id.team_list);
+            teamList.setAdapter(adapter);
+            teamList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                    Team team = (Team) teamList.getItemAtPosition(position);
+                    Intent intent = new Intent(TeamListView.this,TeamDetailActivity.class);
+                    intent.putExtra("team_data",(Parcelable) team);
+                    startActivity(intent);
+                }
+            });
+        }
+
+
 
         Button addBtn = (Button)findViewById(R.id.add_team_button);
         addBtn.setOnClickListener(new View.OnClickListener(){
@@ -66,7 +75,9 @@ public class TeamListView extends AppCompatActivity {
 //        teams.add(t3);
 //        Team t4 = new Team("山东体彩男子排球队");
 //        teams.add(t4);
-
+        TeamHibernator teamHibernator = new TeamSqliteHibernator(getApplicationContext());
+        teams = teamHibernator.findByName("");
+        teamHibernator.close();
 
     }
 

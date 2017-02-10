@@ -16,6 +16,7 @@ public class Match implements Serializable {
     private Team rightTeam;
 
     private List< Game > games;
+    private long id;
 
     private String name;
 
@@ -45,6 +46,7 @@ public class Match implements Serializable {
     }
 
     private void refresh() { if (games.size() >= 5) finish = true; }
+
 
 }
 
