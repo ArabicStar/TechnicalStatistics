@@ -31,6 +31,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String MATCH_TABLE_NAME = "MATCHES";
     public static final String MATCH_ID_COL = "MATCH_ID";
+    public static final String MATCH_NAME_COL = "MATCH_NAME";
     public static final String MATCH_LEFT_TEAM_COL = "MATCH_LEFT_TEAM";
     public static final String MATCH_RIGHT_TEAM_COL = "MATCH_RIGHT_TEAM";
     public static final String MATCH_FINISH_COL = "MATCH_FINISH";
@@ -84,7 +85,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
                     MEMBER_ID_COL + " INTEGER AUTO_INCREMENT, " +
                     MEMBER_NAME_COL + " VARCHAR(20) NOT NULL, " +
                     MEMBER_NUM_COL + " INTEGER NOT NULL CHECK(MEMBER_NUM>0), " +
-                    MEMBER_POS_COL + " INTEGER NOT NULL CHECK(MEMBER_POS>=0 AND MEMBER_POS<=4, " +
+                    MEMBER_POS_COL + " INTEGER NOT NULL CHECK(MEMBER_POS>=0 AND MEMBER_POS<=4), " +
                     TEAM_ID_COL + " INTEGER NOT NULL, " +
                     VALID_COL + " BOOLEAN, " +
                     "PRIMARY KEY (" + MEMBER_ID_COL + "), " +
@@ -92,28 +93,20 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
                     TEAM_ID_COL + ") " +
                     ")";
 
-    private static final String CREATE_MATCH_TABLE =
-            "CREATE TABLE IF NOT EXISTS " + MATCH_TABLE_NAME +
-                    "(" +
-                    MATCH_ID_COL + " INTEGER AUTO_INCREMENT, " +
-                    MATCH_LEFT_TEAM_COL + " INTEGER NOT NULL, " +
-                    MATCH_RIGHT_TEAM_COL + " INTEGER NOT NULL, " +
-                    MATCH_FINISH_COL + " BOOLEAN, " +
-                    VALID_COL + " BOOLEAN, " +
-                    "PRIMARY KEY (" + MATCH_ID_COL + "), " +
-                    "FOREIGN KEY (" + MATCH_LEFT_TEAM_COL + ") REFERENCES " + TEAM_NAME_COL + "(" +
-                    TEAM_ID_COL + "), " +
-                    "FOREIGN KEY (" + MATCH_RIGHT_TEAM_COL + ") REFERENCES " + TEAM_NAME_COL + "(" +
-                    TEAM_ID_COL + ") " +
-                    ")";
+    private static final String CREATE_MATCH_TABLE = VALID_COL + " BOOLEAN, " +
+            "PRIMARY KEY (" + MATCH_ID_COL + "), " +
+            "FOREIGN KEY (" + MATCH_LEFT_TEAM_COL + ") REFERENCES " + TEAM_NAME_COL + "(" +
+            TEAM_ID_COL + "), " +
+            "FOREIGN KEY (" + MATCH_RIGHT_TEAM_COL + ") REFERENCES " + TEAM_NAME_COL + "(" +
+            TEAM_ID_COL + ") " +
+            ")";
 
     private static final String CREATE_GAME_TABLE =
             "CREATE TABLE IF NOT EXISTS " + GAME_TABLE_NAME +
                     "(" +
                     GAME_ID_COL + " INTEGER AUTO_INCREMENT, " +
-                    GAME_FINISH_COL + " BOOLEAN, " +
                     MATCH_ID_COL + " INTEGER NOT NULL, " +
-                    VALID_COL + " BOOLEAN, " +
+                    GAME_FINISH_COL + " BOOLEAN, " +
                     "PRIMARY KEY (" + GAME_ID_COL + "), " +
                     "FOREIGN KEY (" + MATCH_ID_COL + ") REFERENCES " + MATCH_ID_COL + "(" +
                     MATCH_ID_COL + ") " +
@@ -125,6 +118,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
                     POINT_ID_COL + " INTEGER AUTO_INCREMENT, " +
                     GAME_ID_COL + " INTEGER NOT NULL, " +
                     TEAM_ID_COL + " INTEGER NOT NULL, " +
+                    POINT_LR_COL + " BOOLEAN, " +//true indicates left while false indicates right.
                     POINT_ACTIVE_COL + " BOOLEAN, " +
                     POINT_METHOD_COL + " VARCHAR(20), " +
                     POINT_REMARK_COL + " VARCHAR(255), " +

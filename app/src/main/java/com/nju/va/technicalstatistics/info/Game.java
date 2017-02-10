@@ -15,7 +15,7 @@ public class Game {
 
 
     private boolean finish;
-    private int id;
+    private long id;
 
     public Game() {
         leftPoints = new ArrayList< Point >( 30 );
@@ -51,5 +51,9 @@ public class Game {
         if( rightSize >= 25 && rightSize - leftSize > 1 ) finish = true;
     }
 
-    public int getId() { return id; }
+    public long getId() { return id; }
+
+    public void setFinish( boolean finish ) { this.finish = finish; }
+
+    public void setId( long id ) { this.id = id; }
 }

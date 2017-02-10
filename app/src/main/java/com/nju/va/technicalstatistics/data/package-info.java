@@ -52,7 +52,8 @@
  * <li>Methods return <code>true</code> <i>iff.</i> all operations succeed. Any failure will cause
  * all operations being rolled back.</li>
  * <li>Methods return <code>false</code>, besides the failure condition mentioned before, if
- * operations make no difference, <i>e.g.</i> the argument is <code>null</code>.</li>
+ * operations will not result in any sql excution, <i>e.g.</i> the argument
+ * is <code>null</code>.</li>
  * </ul>
  */
 package com.nju.va.technicalstatistics.data;

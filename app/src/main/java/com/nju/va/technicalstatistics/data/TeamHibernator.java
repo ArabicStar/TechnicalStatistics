@@ -59,6 +59,8 @@ public interface TeamHibernator {
      */
     public List< Team > findByName( String keyword );
 
+    public MemberHibernator getMemberHibernator();
+
     /**
      * Close connection.
      */

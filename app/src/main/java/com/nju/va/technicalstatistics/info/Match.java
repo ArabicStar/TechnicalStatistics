@@ -16,11 +16,11 @@ public class Match implements Serializable {
     private Team rightTeam;
 
     private List< Game > games;
-    private long id;
 
     private String name;
 
     private boolean finish;
+    private long id;
 
     public Match( Team a, Team b ) {
         name = "";
@@ -31,11 +31,9 @@ public class Match implements Serializable {
     }
 
     public void addGame( Game g ) {
-        if (games != null && !finish) games.add( g );
+        if( games != null && !finish ) games.add( g );
         refresh();
     }
-
-    public String name() { return name; }
 
     public Team getRightTeam() {
         return rightTeam;
@@ -45,8 +43,24 @@ public class Match implements Serializable {
         return leftTeam;
     }
 
-    private void refresh() { if (games.size() >= 5) finish = true; }
+    private void refresh() { if( games.size() >= 5 ) finish = true; }
 
+    public long getId() { return id; }
 
+    public String getName() { return name; }
+
+    public long getLeftTeamId() { return leftTeam.getId(); }
+
+    public long getRightTeamId() { return rightTeam.getId(); }
+
+    public boolean isFinish() { return finish; }
+
+    public List< Game > getGames() { return new ArrayList<>( games ); }
+
+    public void setId( long id ) { this.id = id; }
+
+    public void setName( String name ) { this.name = name;}
+
+    public void setFinish( boolean finish ) { this.finish = finish; }
 }
 

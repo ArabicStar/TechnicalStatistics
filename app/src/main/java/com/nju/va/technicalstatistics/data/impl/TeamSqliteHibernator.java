@@ -34,6 +34,12 @@ public class TeamSqliteHibernator implements TeamHibernator {
     private SQLiteDatabase db;
     private MemberHibernator memberDb;
 
+    public TeamSqliteHibernator( SQLiteOpenHelper helper ) {
+        this.helper = helper;
+        db = helper.getWritableDatabase();
+        memberDb = new MemberSqliteHibernator( helper );
+    }
+
     /**
      * Instantiates a new Team sqlite hibernator by given context.
      *
@@ -222,6 +228,8 @@ public class TeamSqliteHibernator implements TeamHibernator {
 
         return list;
     }
+
+    @Override public MemberHibernator getMemberHibernator() { return memberDb; }
 
     private static ContentValues team2ContentValues( Team t ) {
         ContentValues values = new ContentValues();

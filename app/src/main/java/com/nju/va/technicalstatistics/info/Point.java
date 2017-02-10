@@ -38,6 +38,7 @@ public class Point implements Parcelable {
      * 备注
      */
     private String remark;
+    private long winnerTeam;
 
     Point(){
         members = new ArrayList<Member>(5);
@@ -53,7 +54,7 @@ public class Point implements Parcelable {
 
     public boolean isActive() { return isActive; }
 
-    public void setId( int id ) { this.id = id; }
+    public void setId( long id ) { this.id = id; }
 
     public List< Member > getRelMembers() { return members; }
 
@@ -82,4 +83,14 @@ public class Point implements Parcelable {
 
         @Override public Point[] newArray( int i ) { return new Point[i]; }
     };
+
+    public void setActive( boolean active ) { this.isActive = active; }
+
+    public void setMethod( String method ) { this.method = method; }
+
+    public void setRemark( String remark ) { this.remark = remark; }
+
+    public void setWinnerTeam( long winnerTeam ) { this.winnerTeam = winnerTeam; }
+
+    public void addRelMember( Member member ) { if( member != null ) this.members.add( member );}
 }
