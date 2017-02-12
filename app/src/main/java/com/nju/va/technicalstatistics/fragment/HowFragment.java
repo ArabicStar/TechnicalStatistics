@@ -17,6 +17,9 @@ import com.nju.va.technicalstatistics.info.Point;
  * Created by jqwu on 2017/1/24.
  */
 public class HowFragment extends Fragment {
+
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

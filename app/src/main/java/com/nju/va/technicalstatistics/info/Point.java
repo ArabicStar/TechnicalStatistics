@@ -40,7 +40,7 @@ public class Point implements Parcelable {
     private String remark;
     private long winnerTeam;
 
-    Point(){
+    public Point(){
         members = new ArrayList<Member>(5);
     }
 

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.GridView;
 
 import com.nju.va.technicalstatistics.R;
@@ -42,6 +43,14 @@ public class WhoFragment extends Fragment {
                 else
                     view.setBackgroundResource(R.color.transparent);
 
+            }
+        });
+
+        final Button confirm = (Button) view.findViewById(R.id.confirm);
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                
             }
         });
 
