@@ -27,7 +27,7 @@ public class HowFragment extends Fragment {
         View view= inflater.inflate(R.layout.page3_how, container, false);
 
         final GridView methodView = (GridView) view.findViewById(R.id.method_view);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1, Point.METHOD_NAME);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),R.layout.gridview_my_simple, Point.METHOD_NAME);
         methodView.setAdapter(adapter);
         methodView.setChoiceMode(GridView.CHOICE_MODE_SINGLE);
         methodView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

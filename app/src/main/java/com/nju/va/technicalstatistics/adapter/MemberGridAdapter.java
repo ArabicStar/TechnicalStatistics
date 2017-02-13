@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
+import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -16,13 +16,14 @@ import com.nju.va.technicalstatistics.info.Team;
 import java.util.List;
 
 /**
- * Created by jqwu on 2017/1/17.
+ * Created by jqwu on 2017/2/13.
  */
-public class MemberAdapter extends ArrayAdapter<Member> {
 
+public class MemberGridAdapter extends ArrayAdapter<Member> {
     private int resourceId;
+    private int selectorPosition = GridView.INVALID_POSITION;
 
-    public MemberAdapter(Context context, int textViewResourceId, List<Member> members){
+    public MemberGridAdapter(Context context, int textViewResourceId, List<Member> members){
         super(context,textViewResourceId,members);
         resourceId = textViewResourceId;
     }
@@ -36,30 +37,31 @@ public class MemberAdapter extends ArrayAdapter<Member> {
         if(convertView==null){
             view = LayoutInflater.from(getContext()).inflate(resourceId,null);
             viewHolder = new ViewHolder();
-            viewHolder.layout = (LinearLayout) view.findViewById(R.id.layout) ;
-            viewHolder.name = (TextView) view.findViewById(R.id.member_name);
-            viewHolder.number = (TextView) view.findViewById(R.id.member_number);
-            viewHolder.position = (TextView) view.findViewById(R.id.member_position);
+            viewHolder.text = (TextView) view.findViewById(R.id.textView);
             view.setTag(viewHolder);
         }else{
             view = convertView;
-            viewHolder = (ViewHolder) view.getTag();
+            viewHolder =(ViewHolder) view.getTag();
         }
+        viewHolder.text.setText(Integer.toString(member.getNumber())+"号");
 
-        if(member!=null){
-            viewHolder.name.setText(member.getName());
-            viewHolder.number.setText(Integer.toString(member.getNumber())+"号");
-            viewHolder.position.setText(member.getPositionString());
+        if (selectorPosition == position) {
+            viewHolder.text.setBackgroundResource(R.color.darkskyblue);
+        } else {
+            //其他的恢复原来的状态
+            viewHolder.text.setBackgroundResource(R.color.transparent);
         }
-
 
         return view;
     }
 
+    public void changeState(int pos) {
+        selectorPosition = pos;
+        notifyDataSetChanged();
+
+    }
+
     private final class ViewHolder{
-        LinearLayout layout;
-        TextView name;
-        TextView number;
-        TextView position;
+        TextView text;
     }
 }

@@ -10,6 +10,7 @@ import android.widget.Button;
 import com.nju.va.technicalstatistics.R;
 import com.nju.va.technicalstatistics.adapter.FragAdapter;
 import com.nju.va.technicalstatistics.component.CanotSlidingViewpager;
+import com.nju.va.technicalstatistics.fragment.FragInteractor;
 import com.nju.va.technicalstatistics.fragment.HowFragment;
 import com.nju.va.technicalstatistics.fragment.TeamFragment;
 import com.nju.va.technicalstatistics.fragment.WhoFragment;
@@ -21,7 +22,7 @@ import net.simonvt.menudrawer.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MatchActivity extends AppCompatActivity {
+public class MatchActivity extends AppCompatActivity implements FragInteractor{
 
     private MenuDrawer mDrawer;
     @Override
@@ -38,7 +39,7 @@ public class MatchActivity extends AppCompatActivity {
         fragments.add(new WhyFragment());
         fragments.add(new HowFragment());
         fragments.add(new WhoFragment());
-        FragAdapter adapter = new FragAdapter(getSupportFragmentManager(), fragments);
+        final FragAdapter adapter = new FragAdapter(getSupportFragmentManager(), fragments);
 
         //设定适配器
         final CanotSlidingViewpager vp = (CanotSlidingViewpager)findViewById(R.id.viewpager);
@@ -51,10 +52,16 @@ public class MatchActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 mDrawer.openMenu();
-                vp.setCurrentItem(0, true);
+//                vp.setCurrentItem(0, true);
+                vp.setAdapter(adapter);
             }
         });
 
+
+    }
+
+    public void process(Bundle bundle){
+        
 
     }
 }

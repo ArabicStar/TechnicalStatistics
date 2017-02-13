@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -13,49 +14,58 @@ import android.widget.TextView;
 import com.nju.va.technicalstatistics.R;
 import com.nju.va.technicalstatistics.info.Team;
 
-import java.security.acl.LastOwnerException;
 import java.util.List;
 
 /**
- * Created by jqwu on 2017/1/15.
+ * Created by jqwu on 2017/2/13.
  */
-public class TeamAdapter extends ArrayAdapter<Team>{
 
+public class TeamGridAdapter extends ArrayAdapter<Team> {
     private int resourceId;
+    private int selectorPosition = GridView.INVALID_POSITION;
 
-    public TeamAdapter(Context context, int textViewResourceId, List<Team> teams){
+    public TeamGridAdapter(Context context, int textViewResourceId, List<Team> teams){
         super(context,textViewResourceId,teams);
         resourceId = textViewResourceId;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
+
         Team team = getItem(position);
         View view;
         ViewHolder viewHolder;
+
         if(convertView==null){
             view = LayoutInflater.from(getContext()).inflate(resourceId,null);
             viewHolder = new ViewHolder();
-            viewHolder.layout = (LinearLayout) view.findViewById(R.id.layout);
-            viewHolder.image = (ImageView) view.findViewById(R.id.team_img);
-            viewHolder.name = (TextView) view.findViewById(R.id.team_name);
+            viewHolder.text = (TextView) view.findViewById(R.id.textView);
             view.setTag(viewHolder);
-
         }else{
             view = convertView;
-            viewHolder = (ViewHolder) view.getTag();
+            viewHolder =(ViewHolder) view.getTag();
         }
-        viewHolder.image.setImageResource(team.getImgId());
-        viewHolder.name.setText(team.getName());
+        viewHolder.text.setText(team.getName());
+
+        if (selectorPosition == position) {
+            viewHolder.text.setBackgroundResource(R.color.darkskyblue);
+        } else {
+            //其他的恢复原来的状态
+            viewHolder.text.setBackgroundResource(R.color.transparent);
+        }
 
         return view;
     }
 
-    private final class ViewHolder{
-        LinearLayout layout;
-        ImageView image;
-        TextView name;
+    public void changeState(int pos) {
+        selectorPosition = pos;
+        notifyDataSetChanged();
+
     }
 
+    private final class ViewHolder{
+        TextView text;
+    }
 
 }

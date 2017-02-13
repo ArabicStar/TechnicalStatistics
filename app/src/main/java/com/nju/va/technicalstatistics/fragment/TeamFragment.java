@@ -13,9 +13,12 @@ import android.widget.ArrayAdapter;
 import android.widget.GridView;
 
 import com.nju.va.technicalstatistics.R;
+import com.nju.va.technicalstatistics.adapter.TeamGridAdapter;
 import com.nju.va.technicalstatistics.info.Match;
 import com.nju.va.technicalstatistics.info.Member;
 import com.nju.va.technicalstatistics.info.Team;
+
+import net.simonvt.menudrawer.Position;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +28,7 @@ import java.util.List;
  */
 public class TeamFragment extends Fragment {
     Match match;
+    int selectorPosition = GridView.INVALID_POSITION;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,28 +37,30 @@ public class TeamFragment extends Fragment {
         View view= inflater.inflate(R.layout.page1_team, container, false);
 
         final GridView teamView = (GridView) view.findViewById(R.id.team);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1, getData());
+        final TeamGridAdapter adapter = new TeamGridAdapter(getContext(),R.layout.gridview_my_simple,getData());
         teamView.setAdapter(adapter);
         teamView.setChoiceMode(GridView.CHOICE_MODE_SINGLE);
         teamView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(teamView.isItemChecked(i))
-                    view.setBackgroundResource(R.color.darkskyblue);
-                else
-                    view.setBackgroundResource(R.color.transparent);
-
+                adapter.changeState(i);
+                selectorPosition = i;
             }
         });
+
+        Bundle bundle = getArguments();//从activity传过来的Bundle
+        if(bundle!=null){
+            bundle.getParcelable("point_data");
+        }
         return view;
     }
 
 
-    private List<String> getData(){
+    private List<Team> getData(){
         match = new Match(new Team("A队"),new Team("B队"));
-        List<String> names = new ArrayList<String>(2);
-        names.add(match.getLeftTeam().getName());
-        names.add(match.getRightTeam().getName());
-        return names;
+        List<Team> teams = new ArrayList<Team>(2);
+        teams.add(match.getLeftTeam());
+        teams.add(match.getRightTeam());
+        return teams;
     }
 }
