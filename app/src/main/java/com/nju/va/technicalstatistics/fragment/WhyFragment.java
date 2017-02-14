@@ -21,13 +21,15 @@ import java.util.List;
  * Created by jqwu on 2017/1/24.
  */
 public class WhyFragment extends Fragment {
+    GridView whyView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         View view= inflater.inflate(R.layout.page2_why, container, false);
 
-        final GridView whyView = (GridView) view.findViewById(R.id.why);
+        whyView = (GridView) view.findViewById(R.id.why);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),R.layout.gridview_my_simple, getData());
         whyView.setAdapter(adapter);
         whyView.setChoiceMode(GridView.CHOICE_MODE_SINGLE);
@@ -42,6 +44,10 @@ public class WhyFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    public String getSelectedItem(){
+        return (String) whyView.getSelectedItem();
     }
 
     private List<String> getData(){

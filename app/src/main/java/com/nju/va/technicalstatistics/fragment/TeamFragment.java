@@ -27,8 +27,10 @@ import java.util.List;
  * Created by jqwu on 2017/1/24.
  */
 public class TeamFragment extends Fragment {
-    Match match;
     int selectorPosition = GridView.INVALID_POSITION;
+    GridView teamView;
+    List<Team> teams;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,7 +38,7 @@ public class TeamFragment extends Fragment {
         // TODO Auto-generated method stub
         View view= inflater.inflate(R.layout.page1_team, container, false);
 
-        final GridView teamView = (GridView) view.findViewById(R.id.team);
+        teamView = (GridView) view.findViewById(R.id.team);
         final TeamGridAdapter adapter = new TeamGridAdapter(getContext(),R.layout.gridview_my_simple,getData());
         teamView.setAdapter(adapter);
         teamView.setChoiceMode(GridView.CHOICE_MODE_SINGLE);
@@ -55,10 +57,19 @@ public class TeamFragment extends Fragment {
         return view;
     }
 
+    public Team getSelectedItem(){
+        if(selectorPosition==GridView.INVALID_POSITION)
+            return null;
+        else
+            return teams.get(selectorPosition);
+//        Log.i("selectposition",Integer.toString(selectorPosition));
+
+    }
+
 
     private List<Team> getData(){
-        match = new Match(new Team("A队"),new Team("B队"));
-        List<Team> teams = new ArrayList<Team>(2);
+        Match match = new Match(new Team("A队"),new Team("B队"));
+        teams = new ArrayList<Team>(2);
         teams.add(match.getLeftTeam());
         teams.add(match.getRightTeam());
         return teams;

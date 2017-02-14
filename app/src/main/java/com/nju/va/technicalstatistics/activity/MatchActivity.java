@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridView;
+import android.widget.Toast;
 
 import com.nju.va.technicalstatistics.R;
 import com.nju.va.technicalstatistics.adapter.FragAdapter;
@@ -25,6 +27,10 @@ import java.util.List;
 public class MatchActivity extends AppCompatActivity implements FragInteractor{
 
     private MenuDrawer mDrawer;
+    private TeamFragment tFrag;
+    private WhyFragment wFrag;
+    private HowFragment hFrag;
+    private WhoFragment whoFrag;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,16 +40,20 @@ public class MatchActivity extends AppCompatActivity implements FragInteractor{
         mDrawer.setMenuView(R.layout.menu_score_detail);
 
         //构造适配器
-        List<Fragment> fragments=new ArrayList<Fragment>();
-        fragments.add(new TeamFragment());
-        fragments.add(new WhyFragment());
-        fragments.add(new HowFragment());
-        fragments.add(new WhoFragment());
+        List<Fragment> fragments=new ArrayList<Fragment>(4);
+        tFrag = new TeamFragment();
+        fragments.add(tFrag);
+        wFrag = new WhyFragment();
+        fragments.add(wFrag);
+        hFrag = new HowFragment();
+        fragments.add(hFrag);
+        whoFrag = new WhoFragment();
+        fragments.add(whoFrag);
         final FragAdapter adapter = new FragAdapter(getSupportFragmentManager(), fragments);
 
         //设定适配器
         final CanotSlidingViewpager vp = (CanotSlidingViewpager)findViewById(R.id.viewpager);
-//        vp.setOffscreenPageLimit(3);
+        vp.setOffscreenPageLimit(3);
         vp.setScrollble(true);
         vp.setAdapter(adapter);
 
@@ -56,6 +66,32 @@ public class MatchActivity extends AppCompatActivity implements FragInteractor{
                 vp.setAdapter(adapter);
             }
         });
+
+
+    }
+
+    public void test(){
+        if(tFrag.getSelectedItem()==null) {
+            Toast.makeText(getApplicationContext(), "请选择得分队伍", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(wFrag.getSelectedItem()==null) {
+            Toast.makeText(getApplicationContext(), "请选择得分原因", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(hFrag.getSelectedItem()==null) {
+            Toast.makeText(getApplicationContext(), "请选择得分方式", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+//        if(whoFrag.getSelectedItems()==null) {
+//            Toast.makeText(getApplicationContext(), "请选择得分队员", Toast.LENGTH_SHORT);
+//            return;
+//        }
+
+        mDrawer.closeMenu();
 
 
     }

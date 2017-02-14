@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nju.va.technicalstatistics.R;
+import com.nju.va.technicalstatistics.activity.MatchActivity;
 import com.nju.va.technicalstatistics.adapter.MemberGridAdapter;
 import com.nju.va.technicalstatistics.info.Member;
 import com.nju.va.technicalstatistics.info.Point;
@@ -54,41 +55,18 @@ public class WhoFragment extends Fragment {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                GridView teamView = (GridView) view.findViewById(R.id.team);
-//                Team team = (Team) teamView.getSelectedItem();
-//                if(team==null){
-//                    Toast.makeText(getContext(),"请选择得分队伍",Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//
-//                GridView whyView = (GridView) view.findViewById(R.id.why);
-//                String why = (String) whyView.getSelectedItem();
-//                if(why==null){
-//                    Toast.makeText(getContext(),"请选择得分原因",Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//
-//                GridView methodView = (GridView) view.findViewById(R.id.method_view);
-//                String method = (String) teamView.getSelectedItem();
-//                if(method==null){
-//                    Toast.makeText(getContext(),"请选择得分方式",Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//
-//                EditText remarkView = (EditText) view.findViewById(R.id.remark);
-//                String remark = remarkView.getText().toString();
-//
-//                Member member = (Member) memberView.getSelectedItem();
-//                if(member==null){
-//                    Toast.makeText(getContext(),"请选择得分队员",Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
+                MatchActivity activity = (MatchActivity) getActivity();
+                activity.test();
 
             }
         });
 
 
         return view;
+    }
+
+    public List<Member> getSelectedItems(){
+        return null;
     }
 
     private List<Member> getData(){

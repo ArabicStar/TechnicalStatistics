@@ -93,11 +93,14 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
                     TEAM_ID_COL + ") " +
                     ")";
 
-    private static final String CREATE_MATCH_TABLE = VALID_COL + " BOOLEAN, " +
+    private static final String CREATE_MATCH_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + MATCH_TABLE_NAME +
+                    "("+
+            VALID_COL + " BOOLEAN, " +
             "PRIMARY KEY (" + MATCH_ID_COL + "), " +
-            "FOREIGN KEY (" + MATCH_LEFT_TEAM_COL + ") REFERENCES " + TEAM_NAME_COL + "(" +
+            "FOREIGN KEY (" + MATCH_LEFT_TEAM_COL + ") REFERENCES " + TEAM_TABLE_NAME + "(" +
             TEAM_ID_COL + "), " +
-            "FOREIGN KEY (" + MATCH_RIGHT_TEAM_COL + ") REFERENCES " + TEAM_NAME_COL + "(" +
+            "FOREIGN KEY (" + MATCH_RIGHT_TEAM_COL + ") REFERENCES " + TEAM_TABLE_NAME + "(" +
             TEAM_ID_COL + ") " +
             ")";
 
@@ -108,7 +111,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
                     MATCH_ID_COL + " INTEGER NOT NULL, " +
                     GAME_FINISH_COL + " BOOLEAN, " +
                     "PRIMARY KEY (" + GAME_ID_COL + "), " +
-                    "FOREIGN KEY (" + MATCH_ID_COL + ") REFERENCES " + MATCH_ID_COL + "(" +
+                    "FOREIGN KEY (" + MATCH_ID_COL + ") REFERENCES " + MATCH_TABLE_NAME + "(" +
                     MATCH_ID_COL + ") " +
                     ")";
 
@@ -186,10 +189,10 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.beginTransaction();
         sqLiteDatabase.execSQL( CREATE_TEAM_TABLE );
         sqLiteDatabase.execSQL( CREATE_MEM_TABLE );
-        sqLiteDatabase.execSQL( CREATE_MATCH_TABLE );
-        sqLiteDatabase.execSQL( CREATE_GAME_TABLE );
-        sqLiteDatabase.execSQL( CREATE_POINT_TABLE );
-        sqLiteDatabase.execSQL( CREATE_PT$MEM_TABLE );
+//        sqLiteDatabase.execSQL( CREATE_MATCH_TABLE );
+//        sqLiteDatabase.execSQL( CREATE_GAME_TABLE );
+//        sqLiteDatabase.execSQL( CREATE_POINT_TABLE );
+//        sqLiteDatabase.execSQL( CREATE_PT$MEM_TABLE );
         //        sqLiteDatabase.execSQL( CREATE_STOP_TABLE );
         //        sqLiteDatabase.execSQL( CREATE_EXCHANGE_TABLE );
         sqLiteDatabase.endTransaction();

@@ -17,7 +17,7 @@ import com.nju.va.technicalstatistics.info.Point;
  * Created by jqwu on 2017/1/24.
  */
 public class HowFragment extends Fragment {
-
+    GridView methodView;
 
 
     @Override
@@ -26,7 +26,7 @@ public class HowFragment extends Fragment {
         // TODO Auto-generated method stub
         View view= inflater.inflate(R.layout.page3_how, container, false);
 
-        final GridView methodView = (GridView) view.findViewById(R.id.method_view);
+        methodView = (GridView) view.findViewById(R.id.method_view);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),R.layout.gridview_my_simple, Point.METHOD_NAME);
         methodView.setAdapter(adapter);
         methodView.setChoiceMode(GridView.CHOICE_MODE_SINGLE);
@@ -41,5 +41,9 @@ public class HowFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    public String getSelectedItem(){
+        return (String) methodView.getSelectedItem();
     }
 }
