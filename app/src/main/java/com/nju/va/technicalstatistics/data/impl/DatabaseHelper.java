@@ -14,7 +14,9 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
     public static final String LOG_TAG = "Database";
 
     public static final String DATABASE_NAME = "TECH_STATS";
-    public static final int DATABASE_VERSION = 3;
+    public static final int DATABASE_VERSION = 1;
+    public static final String TRUE = "1";
+    public static final String FALSE = "0";
 
     public static final String VALID_COL = "VALID";
 
@@ -95,14 +97,19 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_MATCH_TABLE =
             "CREATE TABLE IF NOT EXISTS " + MATCH_TABLE_NAME +
-                    "("+
-            VALID_COL + " BOOLEAN, " +
-            "PRIMARY KEY (" + MATCH_ID_COL + "), " +
-            "FOREIGN KEY (" + MATCH_LEFT_TEAM_COL + ") REFERENCES " + TEAM_TABLE_NAME + "(" +
-            TEAM_ID_COL + "), " +
-            "FOREIGN KEY (" + MATCH_RIGHT_TEAM_COL + ") REFERENCES " + TEAM_TABLE_NAME + "(" +
-            TEAM_ID_COL + ") " +
-            ")";
+                    "(" +
+                    MATCH_ID_COL + " INTEGER, " +
+                    VALID_COL + " BOOLEAN, " +
+                    MATCH_LEFT_TEAM_COL + " INTEGER, " +
+                    MATCH_RIGHT_TEAM_COL + " INTEGER, " +
+                    "PRIMARY KEY (" + MATCH_ID_COL + "), " +
+                    "FOREIGN KEY (" + MATCH_LEFT_TEAM_COL + ") REFERENCES " + TEAM_TABLE_NAME +
+                    "(" +
+                    TEAM_ID_COL + "), " +
+                    "FOREIGN KEY (" + MATCH_RIGHT_TEAM_COL + ") REFERENCES " + TEAM_TABLE_NAME +
+                    "(" +
+                    TEAM_ID_COL + ") " +
+                    ")";
 
     private static final String CREATE_GAME_TABLE =
             "CREATE TABLE IF NOT EXISTS " + GAME_TABLE_NAME +
@@ -133,7 +140,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
                     ")";
 
     private static final String CREATE_PT$MEM_TABLE =
-            "CREATE TABLE IF NOT EXISTS" + PT$MEM_TABLE_NAME +
+            "CREATE TABLE IF NOT EXISTS " + PT$MEM_TABLE_NAME +
                     "(" +
                     POINT_ID_COL + " INTEGER, " +
                     MEMBER_ID_COL + " INTEGER, " +
@@ -189,12 +196,13 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.beginTransaction();
         sqLiteDatabase.execSQL( CREATE_TEAM_TABLE );
         sqLiteDatabase.execSQL( CREATE_MEM_TABLE );
-//        sqLiteDatabase.execSQL( CREATE_MATCH_TABLE );
-//        sqLiteDatabase.execSQL( CREATE_GAME_TABLE );
-//        sqLiteDatabase.execSQL( CREATE_POINT_TABLE );
-//        sqLiteDatabase.execSQL( CREATE_PT$MEM_TABLE );
-        //        sqLiteDatabase.execSQL( CREATE_STOP_TABLE );
-        //        sqLiteDatabase.execSQL( CREATE_EXCHANGE_TABLE );
+        sqLiteDatabase.execSQL( CREATE_MATCH_TABLE );
+        sqLiteDatabase.execSQL( CREATE_GAME_TABLE );
+        sqLiteDatabase.execSQL( CREATE_POINT_TABLE );
+        sqLiteDatabase.execSQL( CREATE_PT$MEM_TABLE );
+        //sqLiteDatabase.execSQL( CREATE_STOP_TABLE );
+        //sqLiteDatabase.execSQL( CREATE_EXCHANGE_TABLE );
+        sqLiteDatabase.setTransactionSuccessful();
         sqLiteDatabase.endTransaction();
 
         Log.d( LOG_TAG, "create database" );

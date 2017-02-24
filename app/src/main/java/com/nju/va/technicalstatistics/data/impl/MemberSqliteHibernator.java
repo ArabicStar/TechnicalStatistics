@@ -14,9 +14,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.security.auth.login.LoginException;
-
-import static com.nju.va.technicalstatistics.data.impl.DatabaseHelper.*;
+import static com.nju.va.technicalstatistics.data.impl.DatabaseHelper.INVALIDATE;
+import static com.nju.va.technicalstatistics.data.impl.DatabaseHelper.LOG_TAG;
+import static com.nju.va.technicalstatistics.data.impl.DatabaseHelper.MEMBER_ID_COL;
+import static com.nju.va.technicalstatistics.data.impl.DatabaseHelper.MEMBER_NAME_COL;
+import static com.nju.va.technicalstatistics.data.impl.DatabaseHelper.MEMBER_NUM_COL;
+import static com.nju.va.technicalstatistics.data.impl.DatabaseHelper.MEMBER_POS_COL;
+import static com.nju.va.technicalstatistics.data.impl.DatabaseHelper.MEMBER_TABLE_NAME;
+import static com.nju.va.technicalstatistics.data.impl.DatabaseHelper.TEAM_ID_COL;
+import static com.nju.va.technicalstatistics.data.impl.DatabaseHelper.TRUE;
+import static com.nju.va.technicalstatistics.data.impl.DatabaseHelper.VALID_COL;
 
 /**
  * Created by tinker on 2017/1/31.
@@ -128,7 +135,7 @@ public class MemberSqliteHibernator implements MemberHibernator {
         if( m == null ) return false;
 
         ContentValues values = member2ContentValues( m );
-        final String where = MEMBER_ID_COL + "=? AND " + VALID_COL + "=TRUE";
+        final String where = MEMBER_ID_COL + "=? AND " + VALID_COL + "=" + TRUE;
         final String[] args = { String.valueOf( m.getId() ) };
 
         db.beginTransaction();
@@ -186,7 +193,7 @@ public class MemberSqliteHibernator implements MemberHibernator {
         if( teamId < 0 ) return null;
         final String sql =
                 "SELECT * FROM " + MEMBER_TABLE_NAME + " WHERE " + TEAM_ID_COL + "=? AND " +
-                        VALID_COL + " =TRUE";
+                        VALID_COL + " =" + TRUE;
         final String[] args = { String.valueOf( teamId ) };
 
         db.beginTransaction();
@@ -221,7 +228,7 @@ public class MemberSqliteHibernator implements MemberHibernator {
         values.put( MEMBER_NUM_COL, m.getNumber() );
         values.put( MEMBER_POS_COL, m.getPosition() );
         values.put( TEAM_ID_COL, m.getTeam() );
-        values.put( VALID_COL, Boolean.TRUE );
+        values.put( VALID_COL, TRUE );
         return values;
     }
 }

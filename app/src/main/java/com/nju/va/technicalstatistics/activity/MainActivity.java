@@ -6,36 +6,37 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.idescout.sql.SqlScoutServer;
 import com.nju.va.technicalstatistics.R;
+import com.nju.va.technicalstatistics.data.impl.DatabaseHelper;
 import com.nju.va.technicalstatistics.info.Match;
 
 public class MainActivity extends AppCompatActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
+    @Override protected void onCreate( Bundle savedInstanceState ) {
+        super.onCreate( savedInstanceState );
+        setContentView( R.layout.activity_main );
+        SqlScoutServer.create( this, getPackageName() );
         //team data button
-        final Button teamBtn = (Button)findViewById(R.id.team_data_button);
-        teamBtn.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                startActivity(new Intent("android.intent.action.TEAMLIST"));
+        final Button teamBtn = (Button) findViewById( R.id.team_data_button );
+        teamBtn.setOnClickListener( new View.OnClickListener() {
+            public void onClick( View v ) {
+                startActivity( new Intent( "android.intent.action.TEAMLIST" ) );
             }
-        });
+        } );
 
-        final Button newCompBtn = (Button)findViewById(R.id.new_competition_button);
-        newCompBtn.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                startActivity(new Intent("android.intent.action.CHOOSETEAM"));
+        final Button newCompBtn = (Button) findViewById( R.id.new_competition_button );
+        newCompBtn.setOnClickListener( new View.OnClickListener() {
+            public void onClick( View v ) {
+                startActivity( new Intent( "android.intent.action.CHOOSETEAM" ) );
             }
-        });
+        } );
 
-        final Button preCompBtn = (Button)findViewById(R.id.previous_competition_button);
-        preCompBtn.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                startActivity(new Intent(MainActivity.this,MatchActivity.class));
+        final Button preCompBtn = (Button) findViewById( R.id.previous_competition_button );
+        preCompBtn.setOnClickListener( new View.OnClickListener() {
+            public void onClick( View v ) {
+                startActivity( new Intent( MainActivity.this, MatchActivity.class ) );
             }
-        });
+        } );
     }
 }

@@ -23,6 +23,7 @@ import static com.nju.va.technicalstatistics.data.impl.DatabaseHelper.TEAM_ID_CO
 import static com.nju.va.technicalstatistics.data.impl.DatabaseHelper.TEAM_IMG_COL;
 import static com.nju.va.technicalstatistics.data.impl.DatabaseHelper.TEAM_NAME_COL;
 import static com.nju.va.technicalstatistics.data.impl.DatabaseHelper.TEAM_TABLE_NAME;
+import static com.nju.va.technicalstatistics.data.impl.DatabaseHelper.TRUE;
 import static com.nju.va.technicalstatistics.data.impl.DatabaseHelper.VALID_COL;
 
 
@@ -107,7 +108,7 @@ public class TeamSqliteHibernator implements TeamHibernator {
     @Override public boolean update( Team t ) {
         Cursor tmp = db.rawQuery(
                 "SELECT DISTINCT" + VALID_COL + " FROM " + TEAM_TABLE_NAME + " WHERE " +
-                        TEAM_ID_COL + "=? AND " + VALID_COL + "=TRUE",
+                        TEAM_ID_COL + "=? AND " + VALID_COL + "=" + TRUE,
                 new String[]{ String.valueOf( t.getId() ) } );
         if( tmp.getCount() == 0 ) return false;
         tmp.close();
@@ -194,8 +195,8 @@ public class TeamSqliteHibernator implements TeamHibernator {
         if( keyword == null ) return null;
 
         final String sql = "SELECT * FROM " + TEAM_TABLE_NAME + " WHERE " + TEAM_NAME_COL +
-                "LIKE '%?%' AND " + VALID_COL + "=TRUE";
-        final String[] args = { keyword };
+                " LIKE ? OR " + TEAM_NAME_COL + " LIKE ? AND " + VALID_COL + "=" + TRUE;
+        final String[] args = { keyword + "%", "%" + keyword };
 
         db.beginTransaction();
         Cursor cursor = null;
@@ -235,7 +236,7 @@ public class TeamSqliteHibernator implements TeamHibernator {
         ContentValues values = new ContentValues();
         values.put( TEAM_NAME_COL, t.getName() );
         values.put( TEAM_IMG_COL, t.getImgId() );
-        values.put( VALID_COL, Boolean.TRUE );
+        values.put( VALID_COL, TRUE );
         return values;
     }
 
