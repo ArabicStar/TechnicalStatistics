@@ -51,6 +51,13 @@ public interface TeamHibernator {
      */
     public Team find( long id, boolean ignoreDeleted );
 
+
+    /**
+     * Find all teams.<br/>
+     * @return the teams
+     */
+    public List<Team> findAll();
+
     /**
      * Find by name list.
      *

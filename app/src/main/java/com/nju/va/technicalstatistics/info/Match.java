@@ -15,12 +15,13 @@ public class Match implements Serializable {
     private Team leftTeam;
     private Team rightTeam;
 
+    private String name;
+    private int id;
+
     private List< Game > games;
 
-    private String name;
-
+    //这个变量不需要存到数据库
     private boolean finish;
-    private long id;
 
     public Match( Team a, Team b ) {
         name = "";
@@ -45,7 +46,7 @@ public class Match implements Serializable {
 
     private void refresh() { if( games.size() >= 5 ) finish = true; }
 
-    public long getId() { return id; }
+    public int getId() { return id; }
 
     public String getName() { return name; }
 
@@ -57,7 +58,7 @@ public class Match implements Serializable {
 
     public List< Game > getGames() { return new ArrayList<>( games ); }
 
-    public void setId( long id ) { this.id = id; }
+    public void setId( int id ) { this.id = id; }
 
     public void setName( String name ) { this.name = name;}
 

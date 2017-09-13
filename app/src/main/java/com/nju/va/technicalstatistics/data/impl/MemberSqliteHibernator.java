@@ -14,8 +14,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.security.auth.login.LoginException;
-
 import static com.nju.va.technicalstatistics.data.impl.DatabaseHelper.*;
 
 /**
@@ -218,7 +216,7 @@ public class MemberSqliteHibernator implements MemberHibernator {
         ContentValues values = new ContentValues();
         values.put( MEMBER_ID_COL, m.getId() );
         values.put( MEMBER_NAME_COL, m.getName() );
-        values.put( MEMBER_NUM_COL, m.getNumber() );
+        values.put( MEMBER_NUM_COL, m.getMno() );
         values.put( MEMBER_POS_COL, m.getPosition() );
         values.put( TEAM_ID_COL, m.getTeam() );
         values.put( VALID_COL, Boolean.TRUE );

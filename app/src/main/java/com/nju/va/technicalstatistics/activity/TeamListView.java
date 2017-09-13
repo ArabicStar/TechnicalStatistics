@@ -22,6 +22,7 @@ import java.util.List;
 
 public class TeamListView extends AppCompatActivity {
     private List<Team> teams;
+    TeamAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,7 +34,7 @@ public class TeamListView extends AppCompatActivity {
         if(teams!=null){
             Log.i("连接数据库","成功");
 
-            TeamAdapter adapter = new TeamAdapter(TeamListView.this,R.layout.line_team, teams);
+            adapter = new TeamAdapter(TeamListView.this,R.layout.line_team, teams);
             final ListView teamList = (ListView) findViewById(R.id.team_list);
             teamList.setAdapter(adapter);
             teamList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -60,6 +61,16 @@ public class TeamListView extends AppCompatActivity {
     }
 
     /**
+     *Activity创建或者从后台重新回到前台时被调用
+     */
+    @Override
+    protected void onStart() {
+        super.onStart();
+        initTeams();
+        adapter.notifyDataSetChanged();
+    }
+
+    /**
      * 用于测试的方法，生成一些队伍信息
      */
     private void initTeams(){
@@ -76,7 +87,7 @@ public class TeamListView extends AppCompatActivity {
 //        Team t4 = new Team("山东体彩男子排球队");
 //        teams.add(t4);
         TeamHibernator teamHibernator = new TeamSqliteHibernator(getApplicationContext());
-        teams = teamHibernator.findByName("");
+        teams = teamHibernator.findAll();
         teamHibernator.close();
 
     }

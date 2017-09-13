@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * Created by jqwu on 2017/2/4.
- * 一局比赛，一场比赛最多有五局
+ * 一局比赛，一场比赛最多有五局，该类不出现在数据库中，对应为gno
  */
 
 public class Game {
