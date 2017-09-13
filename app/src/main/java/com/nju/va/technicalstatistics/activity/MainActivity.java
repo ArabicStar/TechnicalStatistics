@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.idescout.sql.SqlScoutServer;
 import com.nju.va.technicalstatistics.R;
 import com.nju.va.technicalstatistics.data.impl.DatabaseHelper;
 import com.nju.va.technicalstatistics.info.Match;
@@ -16,7 +15,6 @@ public class MainActivity extends AppCompatActivity {
     @Override protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_main );
-        SqlScoutServer.create( this, getPackageName() );
         //team data button
         final Button teamBtn = (Button) findViewById( R.id.team_data_button );
         teamBtn.setOnClickListener( new View.OnClickListener() {

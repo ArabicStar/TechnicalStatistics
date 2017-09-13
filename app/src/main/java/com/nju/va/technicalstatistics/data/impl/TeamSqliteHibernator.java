@@ -191,6 +191,42 @@ public class TeamSqliteHibernator implements TeamHibernator {
         return t;
     }
 
+    @Override
+    public List<Team> findAll() {
+        final String sql = "SELECT * FROM " + TEAM_TABLE_NAME + " WHERE "+ VALID_COL + "=TRUE";
+
+        db.beginTransaction();
+        Cursor cursor = null;
+        try {
+            cursor = db.rawQuery(sql,null);
+        } catch ( Exception e ) {
+            Log.w( LOG_TAG, "find team failed: ", e );
+        } finally {
+            db.endTransaction();
+        }
+        if( cursor == null ) return new ArrayList<>();
+
+        List< Team > list = new ArrayList<>( cursor.getCount() );
+        Team tmp;
+        while ( cursor.moveToNext() ) {
+            tmp = new Team( cursor.getString( 1 ) );
+            tmp.setId( cursor.getInt( 0 ) );
+            tmp.setImgId( cursor.getInt( 2 ) );
+            list.add( tmp );
+        }
+        cursor.close();
+
+        //retrieve members
+        List< Member > members;
+        for ( Team t : list ) {
+            members = memberDb.findByTeam( t.getId() );
+            for ( Member m : members )
+                t.addMember( m );
+        }
+
+        return list;
+    }
+
     @Override public List< Team > findByName( String keyword ) {
         if( keyword == null ) return null;
 

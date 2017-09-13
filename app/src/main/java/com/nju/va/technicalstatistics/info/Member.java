@@ -23,31 +23,26 @@ public class Member implements Parcelable, Serializable {
     public static final int CHIEF_SETTER = 0x4;
     private static final String[] POSITION_NAME = new String[]{ "主攻", "副攻", "自由人", "二传", "接应" };
 
-    private long teamId;
-    private long id;
-    private int number;
+    private int teamId;
+    private int mno;
     private String name;
     @PlayerPosition private int position;
 
     public Member( String name, int number, @PlayerPosition int position ) {
         this.name = name;
-        this.number = number;
+        this.mno = number;
         this.position = position;
     }
 
-    public void setTeam( long teamId ) { this.teamId = teamId; }
+    public void setTeam( int teamId ) { this.teamId = teamId; }
 
-    public void setId( int id ) { this.id = id; }
-
-    public long getId() { return id; }
-
-    public int getNumber() { return number; }
+    public int getMno() { return mno; }
 
     public String getName() { return name; }
 
     @PlayerPosition public int getPosition() { return position; }
 
-    public long getTeam() { return teamId; }
+    public int getTeam() { return teamId; }
 
     public String getPositionString() { return POSITION_NAME[position]; }
 
@@ -57,13 +52,13 @@ public class Member implements Parcelable, Serializable {
 
         Member member = (Member) o;
 
-        return teamId == member.teamId && number == member.number;
+        return teamId == member.teamId && mno == member.mno;
 
     }
 
     @Override public int hashCode() {
         int result = (int) ( teamId ^ ( teamId >>> 32 ) );
-        result = 31 * result + number;
+        result = 31 * result + mno;
         return result;
     }
 
@@ -73,7 +68,6 @@ public class Member implements Parcelable, Serializable {
             String name = parcel.readString();
             int num = parcel.readInt();
             Member member = new Member( name, num, pos );
-            member.id = parcel.readInt();
             member.teamId = parcel.readInt();
             return member;
         }
@@ -86,8 +80,7 @@ public class Member implements Parcelable, Serializable {
     @Override public void writeToParcel( Parcel parcel, int i ) {
         parcel.writeInt( position );
         parcel.writeString( name );
-        parcel.writeInt( number );
-        parcel.writeLong( id );
+        parcel.writeInt(mno);
         parcel.writeLong( teamId );
     }
 }

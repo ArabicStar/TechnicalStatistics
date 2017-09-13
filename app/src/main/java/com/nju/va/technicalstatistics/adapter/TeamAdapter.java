@@ -28,6 +28,10 @@ public class TeamAdapter extends ArrayAdapter<Team>{
         resourceId = textViewResourceId;
     }
 
+    public void update(List<Team> teams){
+
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Team team = getItem(position);

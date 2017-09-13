@@ -5,13 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.nju.va.technicalstatistics.R;
 import com.nju.va.technicalstatistics.info.Member;
-import com.nju.va.technicalstatistics.info.Team;
 
 import java.util.List;
 
@@ -48,7 +46,7 @@ public class MemberAdapter extends ArrayAdapter<Member> {
 
         if(member!=null){
             viewHolder.name.setText(member.getName());
-            viewHolder.number.setText(Integer.toString(member.getNumber())+"号");
+            viewHolder.number.setText(Integer.toString(member.getMno())+"号");
             viewHolder.position.setText(member.getPositionString());
         }
 

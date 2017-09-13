@@ -6,12 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.nju.va.technicalstatistics.R;
 import com.nju.va.technicalstatistics.info.Member;
-import com.nju.va.technicalstatistics.info.Team;
 
 import java.util.List;
 
@@ -43,7 +41,7 @@ public class MemberGridAdapter extends ArrayAdapter<Member> {
             view = convertView;
             viewHolder =(ViewHolder) view.getTag();
         }
-        viewHolder.text.setText(Integer.toString(member.getNumber())+"号");
+        viewHolder.text.setText(Integer.toString(member.getMno())+"号");
 
         if (selectorPosition == position) {
             viewHolder.text.setBackgroundResource(R.color.darkskyblue);

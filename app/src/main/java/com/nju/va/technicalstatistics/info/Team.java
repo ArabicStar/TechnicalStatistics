@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class Team implements Parcelable {
     private String name;
-    private long id;
+    private int id;
     private int imgId;
     private List< Member > members;
 
@@ -27,7 +27,7 @@ public class Team implements Parcelable {
         this.name = name;
     }
 
-    public long getId() { return id; }
+    public int getId() { return id; }
 
     public String getName() { return name; }
 
@@ -77,7 +77,7 @@ public class Team implements Parcelable {
         @Override public Team createFromParcel( Parcel parcel ) {
             Team team = new Team();
             team.name = parcel.readString();
-            team.id = parcel.readLong();
+            team.id = parcel.readInt();
             team.imgId = parcel.readInt();
             parcel.readTypedList( team.members, Member.CREATOR );
             return team;

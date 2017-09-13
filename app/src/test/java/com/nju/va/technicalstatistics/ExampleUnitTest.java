@@ -1,5 +1,10 @@
 package com.nju.va.technicalstatistics;
 
+import android.database.sqlite.SQLiteOpenHelper;
+
+import com.nju.va.technicalstatistics.data.TeamHibernator;
+import com.nju.va.technicalstatistics.data.impl.TeamSqliteHibernator;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;
