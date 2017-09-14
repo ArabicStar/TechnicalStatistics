@@ -3,8 +3,11 @@
 package com.nju.va.technicalstatistics
 
 import android.app.Application
+import com.nju.va.technicalstatistics.dao.MatchDb
+import com.nju.va.technicalstatistics.dao.PointDb
 import com.nju.va.technicalstatistics.dao.TeamDb
 import com.nju.va.technicalstatistics.dao.gen.DaoMaster
+import com.nju.va.technicalstatistics.dao.gen.PointDao
 
 /**
  * Created by tinker on 2017/9/13.
@@ -14,4 +17,5 @@ object MyApplication : Application() {
 }
 
 val teamDb by lazy { TeamDb(MyApplication.daoSession.teamDao) }
-
+val matchDb by lazy { MatchDb(MyApplication.daoSession.matchDao) }
+val pointDb by lazy { with(MyApplication.daoSession) { PointDb(pointDao, gameDao, memberPointRelDao) } }
