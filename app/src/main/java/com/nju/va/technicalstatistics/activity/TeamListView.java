@@ -13,7 +13,6 @@ import android.widget.ListView;
 import com.nju.va.technicalstatistics.DaoContext;
 import com.nju.va.technicalstatistics.R;
 import com.nju.va.technicalstatistics.adapter.TeamAdapter;
-import com.nju.va.technicalstatistics.dao.gen.TeamDao;
 import com.nju.va.technicalstatistics.info.Team;
 
 import java.util.List;
@@ -83,8 +82,7 @@ public class TeamListView extends AppCompatActivity {
 //        teams.add(t3);
 //        Team t4 = new Team("山东体彩男子排球队");
 //        teams.add(t4);
-        TeamDao teamHibernator = DaoContext.getTeamDao();
-        teams = teamHibernator.loadAll();
+        teams = DaoContext.getTeamDb().getAll();
     }
 
 }

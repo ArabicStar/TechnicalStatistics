@@ -18,7 +18,7 @@ import com.nju.va.technicalstatistics.info.Member;
 /** 
  * DAO for table "MEMBER".
 */
-public class MemberDao extends AbstractDao<Member, Void> {
+public class MemberDao extends AbstractDao<Member, Integer> {
 
     public static final String TABLENAME = "MEMBER";
 
@@ -27,10 +27,11 @@ public class MemberDao extends AbstractDao<Member, Void> {
      * Can be used for QueryBuilder and for referencing column names.
      */
     public static class Properties {
-        public final static Property TeamId = new Property(0, int.class, "teamId", true, "TEAM_ID");
-        public final static Property Number = new Property(1, int.class, "number", true, "NUMBER");
-        public final static Property Name = new Property(2, String.class, "name", false, "NAME");
-        public final static Property Position = new Property(3, int.class, "position", false, "POSITION");
+        public final static Property MemberId = new Property(0, int.class, "memberId", true, "MEMBER_ID");
+        public final static Property TeamId = new Property(1, int.class, "teamId", false, "TEAM_ID");
+        public final static Property Number = new Property(2, int.class, "number", false, "NUMBER");
+        public final static Property Name = new Property(3, String.class, "name", false, "NAME");
+        public final static Property Position = new Property(4, int.class, "position", false, "POSITION");
     }
 
     private Query<Member> team_MembersQuery;
@@ -47,10 +48,11 @@ public class MemberDao extends AbstractDao<Member, Void> {
     public static void createTable(Database db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"MEMBER\" (" + //
-                "\"TEAM_ID\" INTEGER PRIMARY KEY NOT NULL ," + // 0: teamId
-                "\"NUMBER\" INTEGER PRIMARY KEY NOT NULL ," + // 1: number
-                "\"NAME\" TEXT," + // 2: name
-                "\"POSITION\" INTEGER NOT NULL );"); // 3: position
+                "\"MEMBER_ID\" INTEGER PRIMARY KEY NOT NULL ," + // 0: memberId
+                "\"TEAM_ID\" INTEGER NOT NULL ," + // 1: teamId
+                "\"NUMBER\" INTEGER NOT NULL ," + // 2: number
+                "\"NAME\" TEXT," + // 3: name
+                "\"POSITION\" INTEGER NOT NULL );"); // 4: position
     }
 
     /** Drops the underlying database table. */
@@ -62,68 +64,74 @@ public class MemberDao extends AbstractDao<Member, Void> {
     @Override
     protected final void bindValues(DatabaseStatement stmt, Member entity) {
         stmt.clearBindings();
-        stmt.bindLong(1, entity.getTeamId());
-        stmt.bindLong(2, entity.getNumber());
+        stmt.bindLong(1, entity.getMemberId());
+        stmt.bindLong(2, entity.getTeamId());
+        stmt.bindLong(3, entity.getNumber());
  
         String name = entity.getName();
         if (name != null) {
-            stmt.bindString(3, name);
+            stmt.bindString(4, name);
         }
-        stmt.bindLong(4, entity.getPosition());
+        stmt.bindLong(5, entity.getPosition());
     }
 
     @Override
     protected final void bindValues(SQLiteStatement stmt, Member entity) {
         stmt.clearBindings();
-        stmt.bindLong(1, entity.getTeamId());
-        stmt.bindLong(2, entity.getNumber());
+        stmt.bindLong(1, entity.getMemberId());
+        stmt.bindLong(2, entity.getTeamId());
+        stmt.bindLong(3, entity.getNumber());
  
         String name = entity.getName();
         if (name != null) {
-            stmt.bindString(3, name);
+            stmt.bindString(4, name);
         }
-        stmt.bindLong(4, entity.getPosition());
+        stmt.bindLong(5, entity.getPosition());
     }
 
     @Override
-    public Void readKey(Cursor cursor, int offset) {
-        return null;
+    public Integer readKey(Cursor cursor, int offset) {
+        return cursor.getInt(offset + 0);
     }    
 
     @Override
     public Member readEntity(Cursor cursor, int offset) {
         Member entity = new Member( //
-            cursor.getInt(offset + 0), // teamId
-            cursor.getInt(offset + 1), // number
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // name
-            cursor.getInt(offset + 3) // position
+            cursor.getInt(offset + 0), // memberId
+            cursor.getInt(offset + 1), // teamId
+            cursor.getInt(offset + 2), // number
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // name
+            cursor.getInt(offset + 4) // position
         );
         return entity;
     }
      
     @Override
     public void readEntity(Cursor cursor, Member entity, int offset) {
-        entity.setTeamId(cursor.getInt(offset + 0));
-        entity.setNumber(cursor.getInt(offset + 1));
-        entity.setName(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setPosition(cursor.getInt(offset + 3));
+        entity.setMemberId(cursor.getInt(offset + 0));
+        entity.setTeamId(cursor.getInt(offset + 1));
+        entity.setNumber(cursor.getInt(offset + 2));
+        entity.setName(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setPosition(cursor.getInt(offset + 4));
      }
     
     @Override
-    protected final Void updateKeyAfterInsert(Member entity, long rowId) {
-        // Unsupported or missing PK type
-        return null;
+    protected final Integer updateKeyAfterInsert(Member entity, long rowId) {
+        return entity.getMemberId();
     }
     
     @Override
-    public Void getKey(Member entity) {
-        return null;
+    public Integer getKey(Member entity) {
+        if(entity != null) {
+            return entity.getMemberId();
+        } else {
+            return null;
+        }
     }
 
     @Override
     public boolean hasKey(Member entity) {
-        // TODO
-        return false;
+        throw new UnsupportedOperationException("Unsupported for entities with a non-null key");
     }
 
     @Override

@@ -49,8 +49,9 @@ public class Member implements Parcelable {
     public Member() {
     }
 
-    @Generated(hash = 137995133)
-    public Member(int teamId, int number, String name, int position) {
+    @Generated(hash = 1396897915)
+    public Member(int memberId, int teamId, int number, String name, int position) {
+        this.memberId = memberId;
         this.teamId = teamId;
         this.number = number;
         this.name = name;
@@ -118,9 +119,17 @@ public class Member implements Parcelable {
         return POSITION_NAME[position];
     }
 
+    public int getMemberId() {
+        return this.memberId;
+    }
+
+    public void setMemberId(int id) {
+        this.memberId = id;
+    }
+
     @Id
+    private int memberId;
     private int teamId;
-    @Id
     private int number;
     private String name;
     @PlayerPosition

@@ -13,8 +13,8 @@ import android.widget.Toast;
 
 import com.nju.va.technicalstatistics.DaoContext;
 import com.nju.va.technicalstatistics.R;
+import com.nju.va.technicalstatistics.dao.TeamDb;
 import com.nju.va.technicalstatistics.adapter.MemberAdapter;
-import com.nju.va.technicalstatistics.dao.gen.TeamDao;
 import com.nju.va.technicalstatistics.info.Member;
 import com.nju.va.technicalstatistics.info.Team;
 
@@ -102,9 +102,9 @@ public class AddTeamActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 team.setName(nameView.getText().toString());
-                TeamDao dao = DaoContext.getTeamDao();
+                TeamDb dao = DaoContext.getTeamDb();
                 if (team.getTeamId() == 0) {
-                    dao.save(team);
+                    dao.add(team);
                     Toast.makeText(getApplicationContext(), "创建队伍成功", Toast.LENGTH_SHORT).show();
                 } else {
                     dao.update(team);
