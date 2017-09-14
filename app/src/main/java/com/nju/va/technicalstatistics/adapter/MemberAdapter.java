@@ -46,7 +46,7 @@ public class MemberAdapter extends ArrayAdapter<Member> {
 
         if(member!=null){
             viewHolder.name.setText(member.getName());
-            viewHolder.number.setText(Integer.toString(member.getMno())+"号");
+            viewHolder.number.setText(Integer.toString(member.getNumber())+"号");
             viewHolder.position.setText(member.getPositionString());
         }
 

@@ -3,6 +3,8 @@ package com.nju.va.technicalstatistics.info;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.greenrobot.greendao.annotation.Entity;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

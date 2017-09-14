@@ -36,6 +36,13 @@ dependencies {
     compile 'net.simonvt.menudrawer:menudrawer:3.0.+@aar'
     compile 'com.android.support:support-annotations:25.3.1'
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    compile 'org.greenrobot:greendao:3.2.2' // add library
+    compile 'org.greenrobot:greendao:3.2.2'
+    compile'org.greenrobot:greendao-generator:3.2.2'
     testCompile 'junit:junit:4.12'
+}
+
+greendao {
+    schemaVersion 1
+    daoPackage 'com.nju.va.technicalstatistics.dao.gen'
+    targetGenDir 'src/main/java'
 }

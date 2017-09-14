@@ -3,21 +3,14 @@ package com.nju.va.technicalstatistics.activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.nju.va.technicalstatistics.R;
 import com.nju.va.technicalstatistics.adapter.MemberAdapter;
-import com.nju.va.technicalstatistics.adapter.TeamAdapter;
-import com.nju.va.technicalstatistics.info.Member;
 import com.nju.va.technicalstatistics.info.Team;
-
-import java.util.List;
 
 public class TeamDetailActivity extends AppCompatActivity {
 

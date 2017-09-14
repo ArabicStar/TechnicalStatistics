@@ -10,9 +10,6 @@ import android.widget.ArrayAdapter;
 import android.widget.GridView;
 
 import com.nju.va.technicalstatistics.R;
-import com.nju.va.technicalstatistics.info.Match;
-import com.nju.va.technicalstatistics.info.Point;
-import com.nju.va.technicalstatistics.info.Team;
 
 import java.util.ArrayList;
 import java.util.List;

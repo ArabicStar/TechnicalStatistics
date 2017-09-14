@@ -41,7 +41,7 @@ public class MemberGridAdapter extends ArrayAdapter<Member> {
             view = convertView;
             viewHolder =(ViewHolder) view.getTag();
         }
-        viewHolder.text.setText(Integer.toString(member.getMno())+"号");
+        viewHolder.text.setText(Integer.toString(member.getNumber())+"号");
 
         if (selectorPosition == position) {
             viewHolder.text.setBackgroundResource(R.color.darkskyblue);

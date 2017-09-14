@@ -4,83 +4,125 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.IntDef;
 
-import java.io.Serializable;
+import org.greenrobot.greendao.annotation.Entity;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+
+import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Id;
 
 /**
  * Created by jqwu on 2017/1/15.
  */
-public class Member implements Parcelable, Serializable {
-    @IntDef( { CHIEF_SPIKER, SECOND_SPIKER, LIBERO, SECOND_SETTER, CHIEF_SETTER } )
-    @Retention( RetentionPolicy.SOURCE )
-    public @interface PlayerPosition { }
+@Entity
+public class Member implements Parcelable {
+    @IntDef({CHIEF_SPIKER, SECOND_SPIKER, LIBERO, SECOND_SETTER, CHIEF_SETTER})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface PlayerPosition {
+    }
 
     public static final int CHIEF_SPIKER = 0x0;
     public static final int SECOND_SPIKER = 0x1;
     public static final int LIBERO = 0x2;
     public static final int SECOND_SETTER = 0x3;
     public static final int CHIEF_SETTER = 0x4;
-    private static final String[] POSITION_NAME = new String[]{ "主攻", "副攻", "自由人", "二传", "接应" };
+    private static final String[] POSITION_NAME = new String[]{"主攻", "副攻", "自由人", "二传", "接应"};
 
-    private int teamId;
-    private int mno;
-    private String name;
-    @PlayerPosition private int position;
+    ///////////////////
 
-    public Member( String name, int number, @PlayerPosition int position ) {
+    protected Member(Parcel in) {
+        teamId = in.readInt();
+        number = in.readInt();
+        name = in.readString();
+        position = in.readInt();
+    }
+
+    public Member(String name, int memberId, int position) {
         this.name = name;
-        this.mno = number;
+        this.number = memberId;
+        this.position = position;
+
+    }
+
+    @Generated(hash = 367284327)
+    public Member() {
+    }
+
+    @Generated(hash = 137995133)
+    public Member(int teamId, int number, String name, int position) {
+        this.teamId = teamId;
+        this.number = number;
+        this.name = name;
         this.position = position;
     }
 
-    public void setTeam( int teamId ) { this.teamId = teamId; }
-
-    public int getMno() { return mno; }
-
-    public String getName() { return name; }
-
-    @PlayerPosition public int getPosition() { return position; }
-
-    public int getTeam() { return teamId; }
-
-    public String getPositionString() { return POSITION_NAME[position]; }
-
-    @Override public boolean equals( Object o ) {
-        if( this == o ) return true;
-        if( !( o instanceof Member ) ) return false;
-
-        Member member = (Member) o;
-
-        return teamId == member.teamId && mno == member.mno;
-
-    }
-
-    @Override public int hashCode() {
-        int result = (int) ( teamId ^ ( teamId >>> 32 ) );
-        result = 31 * result + mno;
-        return result;
-    }
-
-    public static final Creator< Member > CREATOR = new Creator< Member >() {
-        @Override public Member createFromParcel( Parcel parcel ) {
-            @Member.PlayerPosition int pos = parcel.readInt();
-            String name = parcel.readString();
-            int num = parcel.readInt();
-            Member member = new Member( name, num, pos );
-            member.teamId = parcel.readInt();
-            return member;
+    public static final Creator<Member> CREATOR = new Creator<Member>() {
+        @Override
+        public Member createFromParcel(Parcel in) {
+            return new Member(in);
         }
 
-        @Override public Member[] newArray( int i ) { return new Member[i]; }
+        @Override
+        public Member[] newArray(int size) {
+            return new Member[size];
+        }
     };
 
-    @Override public int describeContents() { return 0; }
-
-    @Override public void writeToParcel( Parcel parcel, int i ) {
-        parcel.writeInt( position );
-        parcel.writeString( name );
-        parcel.writeInt(mno);
-        parcel.writeLong( teamId );
+    @Override
+    public int describeContents() {
+        return 0;
     }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(teamId);
+        dest.writeInt(number);
+        dest.writeString(name);
+        dest.writeInt(position);
+    }
+
+    public int getTeamId() {
+        return this.teamId;
+    }
+
+    public void setTeamId(int teamId) {
+        this.teamId = teamId;
+    }
+
+    public int getNumber() {
+        return this.number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getPosition() {
+        return this.position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    public String getPositionString() {
+        return POSITION_NAME[position];
+    }
+
+    @Id
+    private int teamId;
+    @Id
+    private int number;
+    private String name;
+    @PlayerPosition
+    private int position;
 }

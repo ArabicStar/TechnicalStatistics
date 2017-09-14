@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChooseTeamActivity extends AppCompatActivity {
-    private List<Team> teams = new ArrayList<Team>();
+    private List<Team> teams = new ArrayList<>(10);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,16 +29,16 @@ public class ChooseTeamActivity extends AppCompatActivity {
 
         initTeams();
 
-        TeamAdapter adapter = new TeamAdapter(ChooseTeamActivity.this,R.layout.line_team, teams);
+        TeamAdapter adapter = new TeamAdapter(ChooseTeamActivity.this, R.layout.line_team, teams);
         final ListView teamList = (ListView) findViewById(R.id.team_list);
-        final Button confirmBtn = (Button)findViewById(R.id.confirm);
+        final Button confirmBtn = (Button) findViewById(R.id.confirm);
 
         teamList.setAdapter(adapter);
         teamList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         teamList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(teamList.isItemChecked(i))
+                if (teamList.isItemChecked(i))
                     view.setBackgroundResource(R.color.darkskyblue);
                 else
                     view.setBackgroundResource(R.color.transparent);
@@ -47,28 +47,27 @@ public class ChooseTeamActivity extends AppCompatActivity {
         });
 
 
-
-        confirmBtn.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                if(teamList.getCheckedItemCount()!=2)
-                    Toast.makeText(getApplicationContext(),"请选择2支队伍",Toast.LENGTH_SHORT).show();
-                else{
-                    Match match=null;
+        confirmBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (teamList.getCheckedItemCount() != 2)
+                    Toast.makeText(getApplicationContext(), "请选择2支队伍", Toast.LENGTH_SHORT).show();
+                else {
+                    Match match = null;
                     SparseBooleanArray booleanArray = teamList.getCheckedItemPositions();
-                    Team temp=null;
+                    Team temp = null;
                     for (int j = 0; j < booleanArray.size(); j++) {
                         int key = booleanArray.keyAt(j);
                         //放入SparseBooleanArray，未必选中
-                        if (temp==null&&booleanArray.get(key)) {
+                        if (temp == null && booleanArray.get(key)) {
                             //这样mAdapter.getItem(key)就是选中的项
                             temp = teams.get(key);
-                        }else if(booleanArray.get(key)){
-                            match = new Match(temp,teams.get(key));
+                        } else if (booleanArray.get(key)) {
+                            match = new Match(temp, teams.get(key));
                         }
 
                     }
-                    Intent intent = new Intent(ChooseTeamActivity.this,ChooseMemberActivity.class);
-                    intent.putExtra("match_data",match);
+                    Intent intent = new Intent(ChooseTeamActivity.this, ChooseMemberActivity.class);
+                    intent.putExtra("match_data", match);
                     startActivity(intent);
                 }
 
@@ -81,11 +80,11 @@ public class ChooseTeamActivity extends AppCompatActivity {
     /**
      * 用于测试的方法，生成一些队伍信息
      */
-    private void initTeams(){
+    private void initTeams() {
         Team t1 = new Team("江苏男子排球队");
-        Member m1 = new Member("张晨",6, Member.CHIEF_SETTER);
+        Member m1 = new Member("张晨", 6, Member.CHIEF_SETTER);
         t1.addMember(m1);
-        Member m2 = new Member("于垚辰",5, Member.CHIEF_SETTER);
+        Member m2 = new Member("于垚辰", 5, Member.CHIEF_SETTER);
         t1.addMember(m2);
         teams.add(t1);
         Team t2 = new Team("上海金色年华男子排球队");

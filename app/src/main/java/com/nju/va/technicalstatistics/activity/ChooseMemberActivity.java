@@ -13,11 +13,6 @@ import android.widget.Toast;
 import com.nju.va.technicalstatistics.R;
 import com.nju.va.technicalstatistics.adapter.MemberAdapter;
 import com.nju.va.technicalstatistics.info.Match;
-import com.nju.va.technicalstatistics.info.Member;
-import com.nju.va.technicalstatistics.info.Team;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ChooseMemberActivity extends AppCompatActivity {
 
